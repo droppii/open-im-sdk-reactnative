@@ -1,7 +1,7 @@
 {
-  "name": "@openim/rn-client-sdk",
-  "version": "3.8.3-patch.12.3",
-  "description": "OpenIM SDK for react-native",
+  "name": "@droppii/openim-rn-client-sdk",
+  "version": "0.0.1",
+  "description": "Droppii OpenIM SDK for react-native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import OpenIMSDKRN, { OpenIMEmitter } from '@openim/rn-client-sdk';
+import OpenIMSDKRN, { OpenIMEmitter } from '@droppii/openim-rn-client-sdk';
 import RNFS from 'react-native-fs';
 import { Button, StyleSheet, View, ScrollView, Text, Platform } from 'react-native';
 import { MessageItem } from 'src/types/entity';

@@ -12,7 +12,10 @@ Pod::Spec.new do |s|
   s.authors      = package["author"]
 
   s.platforms    = { :ios => "11.0" }
-  s.source       = { :git => "https://github.com/OpenIMSDK/Open-IM-SDK-ReactNative.git.git", :tag => "#{s.version}" }
+  s.source = { 
+    :git => "git@github.com:droppii/open-im-sdk-reactnative.git", 
+    :tag => s.version.to_s
+  }
 
   s.source_files = "ios/**/*.{h,m,mm}"
 
@@ -23,7 +26,7 @@ Pod::Spec.new do |s|
   # else
   s.static_framework = true
   s.dependency "React-Core"
-  s.dependency "OpenIMSDKCore","3.8.3-hotfix.12"
+  s.dependency "DroppiiOpenIMSDKCore", "~> 1.0.0-rc3" # TODO: Change to production version when ready
   s.library = 'resolv'
   # Don't install the dependencies when we run `pod install` in the old architecture.
   if ENV['RCT_NEW_ARCH_ENABLED'] == '1' then
