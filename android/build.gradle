@@ -48,6 +48,9 @@ repositories {
         // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
         url("$rootDir/../node_modules/react-native/android")
     }
+    maven {
+        url "https://maven.pkg.github.com/droppii/openim-sdk-core-android"
+    }
     google()
     mavenCentral()
     // jcenter()
