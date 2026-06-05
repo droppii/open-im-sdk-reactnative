@@ -26,7 +26,7 @@ Pod::Spec.new do |s|
   # else
   s.static_framework = true
   s.dependency "React-Core"
-  s.dependency "DroppiiOpenIMSDKCore", "~> 1.0.0-rc3" # TODO: Change to production version when ready
+  s.vendored_frameworks = 'native-libs/ios/OpenIMCore.xcframework'
   s.library = 'resolv'
   # Don't install the dependencies when we run `pod install` in the old architecture.
   if ENV['RCT_NEW_ARCH_ENABLED'] == '1' then
