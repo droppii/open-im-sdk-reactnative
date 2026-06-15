@@ -1,6 +1,6 @@
 {
   "name": "@droppii/openim-rn-client-sdk",
-  "version": "1.0.0-rc5",
+  "version": "1.0.0-rc6",
   "description": "Droppii OpenIM SDK for react-native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
