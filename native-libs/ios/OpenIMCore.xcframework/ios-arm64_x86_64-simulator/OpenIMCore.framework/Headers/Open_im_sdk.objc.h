@@ -210,6 +210,8 @@ FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkGetConversationIDBySessionType(N
 
 FOUNDATION_EXPORT void Open_im_sdkGetConversationListSplit(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, long offset, long count);
 
+FOUNDATION_EXPORT void Open_im_sdkGetConversationListSplitApp(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, long offset, long count, NSString* _Nullable applicationType, NSString* _Nullable chatCategory);
+
 FOUNDATION_EXPORT void Open_im_sdkGetFriendApplicationListAsApplicant(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable req);
 
 FOUNDATION_EXPORT void Open_im_sdkGetFriendApplicationListAsRecipient(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable req);

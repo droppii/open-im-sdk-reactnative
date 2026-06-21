@@ -60,6 +60,7 @@ import {
   SoundMsgByPathParams,
   SoundMsgParams,
   SplitConversationParams,
+  SplitConversationAppParams,
   TransferGroupParams,
   TypingUpdateParams,
   UpdateFriendsParams,
@@ -396,6 +397,10 @@ class OpenIMSDK extends Emitter {
     return this.invoke(NativeOpenIMSDK.getConversationListSplit, [params, operationID]);
   }
 
+  getConversationListSplitApp(params: SplitConversationAppParams, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.getConversationListSplitApp, [params, operationID]);
+  }
+
   getOneConversation(params: GetOneConversationParams, operationID: string = id()) {
     return this.invoke(NativeOpenIMSDK.getOneConversation, [params, operationID]);
   }
@@ -484,6 +489,10 @@ class OpenIMSDK extends Emitter {
 
   createTextMessage(text: string, operationID: string = id()) {
     return this.invoke(NativeOpenIMSDK.createTextMessage, [text, operationID]);
+  }
+
+  createUrlTextMessage(text: string, urls: string[], operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.createUrlTextMessage, [text, JSON.stringify(urls), operationID]);
   }
 
   createTextAtMessage(params: AtMsgParams, operationID: string = id()) {

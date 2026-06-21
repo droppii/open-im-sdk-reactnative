@@ -75,6 +75,7 @@ import {
   SoundMsgByPathParams,
   SoundMsgParams,
   SplitConversationParams,
+  SplitConversationAppParams,
   TransferGroupParams,
   TypingUpdateParams,
   UpdateFriendsParams,
@@ -311,6 +312,10 @@ export interface NativeOpenIMSDKInterface {
     params: SplitConversationParams,
     operationID: string
   ) => Promise<ConversationItem[]>;
+  getConversationListSplitApp: (
+    params: SplitConversationAppParams,
+    operationID: string
+  ) => Promise<ConversationItem[]>;
   getOneConversation: (
     params: GetOneConversationParams,
     operationID: string
@@ -385,6 +390,11 @@ export interface NativeOpenIMSDKInterface {
   ) => Promise<MessageItem>;
   createTextMessage: (
     text: string,
+    operationID: string
+  ) => Promise<MessageItem>;
+  createUrlTextMessage: (
+    text: string,
+    urls: string,
     operationID: string
   ) => Promise<MessageItem>;
   createTextAtMessage: (

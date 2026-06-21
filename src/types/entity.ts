@@ -215,9 +215,18 @@ export type MessageItem = {
   notificationElem?: NotificationElem;
   advancedTextElem?: AdvancedTextElem;
   typingElem?: TypingElem;
+  urlTextElem?: UrlTextElem;
+  logTextElem?: LogTextElem;
   attachedInfoElem: AttachedInfoElem;
 };
 export type TextElem = {
+  content: string;
+};
+export type UrlTextElem = {
+  content: string;
+  urls: string[];
+};
+export type LogTextElem = {
   content: string;
 };
 export type CardElem = {

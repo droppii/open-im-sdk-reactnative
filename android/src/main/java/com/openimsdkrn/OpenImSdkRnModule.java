@@ -180,6 +180,13 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void getConversationListSplitApp(ReadableMap options, String operationID, Promise promise) {
+    String chatCategory = options.hasKey("chatCategory") ? options.getString("chatCategory") : "";
+    Open_im_sdk.getConversationListSplitApp(new BaseImpl(promise), operationID, options.getInt("offset"),
+      options.getInt("count"), options.getString("applicationType"), chatCategory);
+  }
+
+  @ReactMethod
   public void getOneConversation(ReadableMap options, String operationID, Promise promise) {
     Open_im_sdk.getOneConversation(new BaseImpl(promise), operationID, options.getInt("sessionType"),
       options.getString("sourceID"));
@@ -312,6 +319,17 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void createTextMessage(String textMsg, String operationID, Promise promise) {
     String message = Open_im_sdk.createTextMessage(operationID, textMsg);
+    try {
+      JSONObject obj = JSON.parseObject(message);
+      promise.resolve(emitter.convertJsonToMap(obj));
+    } catch (Exception e) {
+      promise.resolve(message);
+    }
+  }
+
+  @ReactMethod
+  public void createUrlTextMessage(String textMsg, String urls, String operationID, Promise promise) {
+    String message = Open_im_sdk.createUrlTextMessage(operationID, textMsg, urls);
     try {
       JSONObject obj = JSON.parseObject(message);
       promise.resolve(emitter.convertJsonToMap(obj));
