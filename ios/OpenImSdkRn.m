@@ -255,6 +255,12 @@ RCT_EXPORT_METHOD(getConversationListSplit:(NSDictionary *)options operationID:(
     Open_im_sdkGetConversationListSplit(proxy,operationID,[[options valueForKey:@"offset"] longValue], [[options valueForKey:@"count"] longValue]);
 }
 
+RCT_EXPORT_METHOD(getConversationListSplitApp:(NSDictionary *)options operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+    RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
+    NSString *chatCategory = options[@"chatCategory"] ?: @"";
+    Open_im_sdkGetConversationListSplitApp(proxy, operationID, [[options valueForKey:@"offset"] longValue], [[options valueForKey:@"count"] longValue], [options valueForKey:@"applicationType"], chatCategory);
+}
+
 RCT_EXPORT_METHOD(getOneConversation:(NSDictionary *)options operationID:(NSString *)operationID  resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
     Open_im_sdkGetOneConversation(proxy,operationID, [[options valueForKey:@"sessionType"] intValue], [options valueForKey:@"sourceID"]);
@@ -400,6 +406,16 @@ RCT_EXPORT_METHOD(createTextAtMessage:(NSDictionary *)options operationID:(NSStr
 
 RCT_EXPORT_METHOD(createTextMessage:(NSString *)textMsg operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     NSString *result = Open_im_sdkCreateTextMessage(operationID,textMsg);
+    NSDictionary *message = [self parseJsonStr2Dict:result];
+    if (message) {
+        resolver(message);
+    } else {
+        resolver(result);
+    }
+}
+
+RCT_EXPORT_METHOD(createUrlTextMessage:(NSString *)textMsg urls:(NSString *)urls operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+    NSString *result = Open_im_sdkCreateUrlTextMessage(operationID, textMsg, urls);
     NSDictionary *message = [self parseJsonStr2Dict:result];
     if (message) {
         resolver(message);

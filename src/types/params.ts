@@ -48,6 +48,12 @@ export type SplitConversationParams = {
   offset: number;
   count: number;
 };
+export type SplitConversationAppParams = {
+  offset: number;
+  count: number;
+  applicationType: string;
+  chatCategory?: string;
+};
 
 export type GetOneConversationParams = {
   sourceID: string;
