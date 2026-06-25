@@ -140,3 +140,9 @@ export enum ViewType {
   History = 0,
   Search = 1,
 }
+export enum PeerType {
+  Group = 'GROUP',
+  Bot = 'Bot',
+  User = 'USER',
+  Customer = 'CUSTOMER'
+}

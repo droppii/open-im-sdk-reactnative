@@ -11,6 +11,7 @@ import type {
   MessageStatus,
   MessageType,
   OnlineState,
+  PeerType,
   Platform,
   Relationship,
   SessionType,
@@ -176,6 +177,7 @@ export type ConversationItem = {
   isMsgDestruct: boolean;
   attachedInfo: string;
   ex?: string;
+  peerType?: PeerType;
 };
 export type MessageItem = {
   clientMsgID: string;
