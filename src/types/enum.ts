@@ -142,7 +142,7 @@ export enum ViewType {
 }
 export enum PeerType {
   Group = 'GROUP',
-  Bot = 'Bot',
+  Bot = 'BOT',
   User = 'USER',
   Customer = 'CUSTOMER'
 }
