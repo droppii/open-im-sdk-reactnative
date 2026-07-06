@@ -643,6 +643,16 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void getAdvancedHistoryMessageListApp(ReadableMap findOptions, String operationID, Promise promise) {
+    Open_im_sdk.getAdvancedHistoryMessageListApp(new BaseImpl(promise), operationID, map2string(findOptions));
+  }
+
+  @ReactMethod
+  public void getAdvancedHistoryMessageListReverseApp(ReadableMap options, String operationID, Promise promise) {
+    Open_im_sdk.getAdvancedHistoryMessageListReverseApp(new BaseImpl(promise), operationID, map2string(options));
+  }
+
+  @ReactMethod
   public void revokeMessage(ReadableMap options, String operationID, Promise promise) {
     Open_im_sdk.revokeMessage(new BaseImpl(promise), operationID, options.getString("conversationID"),
       options.getString("clientMsgID"));

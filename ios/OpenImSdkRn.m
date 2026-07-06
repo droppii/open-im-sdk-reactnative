@@ -741,6 +741,20 @@ RCT_EXPORT_METHOD(getAdvancedHistoryMessageListReverse:(NSDictionary *)options o
     Open_im_sdkGetAdvancedHistoryMessageListReverse(proxy, operationID, optionsJson);
 }
 
+RCT_EXPORT_METHOD(getAdvancedHistoryMessageListApp:(NSDictionary *)findOptions operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+    RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
+    NSString *findOptionsJson = [findOptions json];
+
+    Open_im_sdkGetAdvancedHistoryMessageListApp(proxy, operationID, findOptionsJson);
+}
+
+RCT_EXPORT_METHOD(getAdvancedHistoryMessageListReverseApp:(NSDictionary *)options operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+    RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
+    NSString *optionsJson = [options json];
+
+    Open_im_sdkGetAdvancedHistoryMessageListReverseApp(proxy, operationID, optionsJson);
+}
+
 RCT_EXPORT_METHOD(revokeMessage:(NSDictionary *)options operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
     NSString *conversationID = options[@"conversationID"];

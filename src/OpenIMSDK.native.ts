@@ -33,6 +33,7 @@ import {
   FileMsgByPathParams,
   FileMsgParams,
   FindMessageParams,
+  GetAdvancedHistoryMsgAppParams,
   GetAdvancedHistoryMsgParams,
   GetFriendApplicationListAsApplicantParams,
   GetFriendApplicationListAsRecipientParams,
@@ -489,6 +490,14 @@ export interface NativeOpenIMSDKInterface {
   ) => Promise<AdvancedGetMessageResult>;
   getAdvancedHistoryMessageListReverse: (
     params: GetAdvancedHistoryMsgParams,
+    operationID: string
+  ) => Promise<AdvancedGetMessageResult>;
+  getAdvancedHistoryMessageListApp: (
+    params: GetAdvancedHistoryMsgAppParams,
+    operationID: string
+  ) => Promise<AdvancedGetMessageResult>;
+  getAdvancedHistoryMessageListReverseApp: (
+    params: GetAdvancedHistoryMsgAppParams,
     operationID: string
   ) => Promise<AdvancedGetMessageResult>;
   findMessageList: (

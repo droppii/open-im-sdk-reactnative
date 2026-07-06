@@ -18,6 +18,7 @@ import {
   FileMsgByPathParams,
   FileMsgParams,
   FindMessageParams,
+  GetAdvancedHistoryMsgAppParams,
   GetAdvancedHistoryMsgParams,
   GetFriendApplicationListAsApplicantParams,
   GetFriendApplicationListAsRecipientParams,
@@ -599,6 +600,23 @@ class OpenIMSDK extends Emitter {
     operationID: string = id()
   ) {
     return this.invoke(NativeOpenIMSDK.getAdvancedHistoryMessageListReverse, [params, operationID]);
+  }
+
+  getAdvancedHistoryMessageListApp(
+    params: GetAdvancedHistoryMsgAppParams,
+    operationID: string = id()
+  ) {
+    return this.invoke(NativeOpenIMSDK.getAdvancedHistoryMessageListApp, [params, operationID]);
+  }
+
+  getAdvancedHistoryMessageListReverseApp(
+    params: GetAdvancedHistoryMsgAppParams,
+    operationID: string = id()
+  ) {
+    return this.invoke(NativeOpenIMSDK.getAdvancedHistoryMessageListReverseApp, [
+      params,
+      operationID,
+    ]);
   }
 
   findMessageList(params: FindMessageParams[], operationID: string = id()) {

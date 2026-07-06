@@ -394,6 +394,11 @@ export type GetAdvancedHistoryMsgParams = {
   conversationID: string;
 };
 
+export type GetAdvancedHistoryMsgAppParams = GetAdvancedHistoryMsgParams & {
+  applicationType: string;
+  chatCategory?: string;
+};
+
 export type FindMessageParams = {
   conversationID: string;
   clientMsgIDList: string[];
