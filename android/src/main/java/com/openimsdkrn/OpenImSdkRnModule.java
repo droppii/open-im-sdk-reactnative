@@ -187,6 +187,46 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void pinMsg(String conversationID, String clientMsgID, String operationID, Promise promise) {
+    Open_im_sdk.pinMsg(new BaseImpl(promise), operationID, conversationID, clientMsgID);
+  }
+
+  @ReactMethod
+  public void unpinMsg(String conversationID, String clientMsgID, String operationID, Promise promise) {
+    Open_im_sdk.unpinMsg(new BaseImpl(promise), operationID, conversationID, clientMsgID);
+  }
+
+  @ReactMethod
+  public void getPinnedMsgs(String conversationID, String operationID, Promise promise) {
+    Open_im_sdk.getPinnedMsgs(new BaseImpl(promise), operationID, conversationID);
+  }
+
+  @ReactMethod
+  public void getPinnedMessageList(String getPinnedMessageListOptions, String operationID, Promise promise) {
+    Open_im_sdk.getPinnedMessageList(new BaseImpl(promise), operationID, getPinnedMessageListOptions);
+  }
+
+  @ReactMethod
+  public void markAllConversationMessageAsRead(String operationID, Promise promise) {
+    Open_im_sdk.markAllConversationMessageAsRead(new BaseImpl(promise), operationID);
+  }
+
+  @ReactMethod
+  public void addUserCommand(int type, String uuid, String value, String operationID, Promise promise) {
+    Open_im_sdk.addUserCommand(new BaseImpl(promise), operationID, type, uuid, value);
+  }
+
+  @ReactMethod
+  public void deleteUserCommand(int type, String uuid, String operationID, Promise promise) {
+    Open_im_sdk.deleteUserCommand(new BaseImpl(promise), operationID, type, uuid);
+  }
+
+  @ReactMethod
+  public void getAllUserCommands(int type, String operationID, Promise promise) {
+    Open_im_sdk.getAllUserCommands(new BaseImpl(promise), operationID, type);
+  }
+
+  @ReactMethod
   public void getOneConversation(ReadableMap options, String operationID, Promise promise) {
     Open_im_sdk.getOneConversation(new BaseImpl(promise), operationID, options.getInt("sessionType"),
       options.getString("sourceID"));
@@ -319,6 +359,17 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void createTextMessage(String textMsg, String operationID, Promise promise) {
     String message = Open_im_sdk.createTextMessage(operationID, textMsg);
+    try {
+      JSONObject obj = JSON.parseObject(message);
+      promise.resolve(emitter.convertJsonToMap(obj));
+    } catch (Exception e) {
+      promise.resolve(message);
+    }
+  }
+
+  @ReactMethod
+  public void createLogMessage(String content, String level, String operationID, Promise promise) {
+    String message = Open_im_sdk.createLogMessage(operationID, content, level);
     try {
       JSONObject obj = JSON.parseObject(message);
       promise.resolve(emitter.convertJsonToMap(obj));

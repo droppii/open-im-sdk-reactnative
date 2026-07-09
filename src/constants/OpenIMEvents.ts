@@ -16,6 +16,7 @@ export const OpenIMEvent = {
   OnMsgDeleted: 'onMsgDeleted',
   OnRecvC2CReadReceipt: 'onRecvC2CReadReceipt',
   OnNewRecvMessageRevoked: 'onNewRecvMessageRevoked',
+  OnRecvMessagePinned: 'onRecvMessagePinned',
   // OnRecvMessageRevoked: 'onRecvMessageRevoked', // iOS only
   // OnRecvMessageExtensionsAdded: 'onRecvMessageExtensionsAdded', // iOS only
   // OnRecvMessageExtensionsChanged: 'onRecvMessageExtensionsChanged', // iOS only

@@ -41,4 +41,9 @@ public class AdvancedMsgListener extends Emitter implements OnAdvancedMsgListene
   public void onRecvOnlineOnlyMessage(String s) {
     send(ctx,"onRecvOnlineOnlyMessage",jsonStringToMap(s));
   }
+
+  @Override
+  public void onRecvMessagePinned(String s) {
+    send(ctx,"onRecvMessagePinned",jsonStringToMap(s));
+  }
 }

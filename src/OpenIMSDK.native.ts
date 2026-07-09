@@ -334,6 +334,11 @@ export interface NativeOpenIMSDKInterface {
     conversationID: string,
     operationID: string
   ) => Promise<unknown>;
+  markAllConversationMessageAsRead: (operationID: string) => Promise<unknown>;
+  pinMsg: (conversationID: string, clientMsgID: string, operationID: string) => Promise<unknown>;
+  unpinMsg: (conversationID: string, clientMsgID: string, operationID: string) => Promise<unknown>;
+  getPinnedMsgs: (conversationID: string, operationID: string) => Promise<MessageItem[]>;
+  getPinnedMessageList: (getPinnedMessageListOptions: string, operationID: string) => Promise<MessageItem[]>;
   setConversation: (
     params: SetConversationParams,
     operationID: string
@@ -398,6 +403,7 @@ export interface NativeOpenIMSDKInterface {
     urls: string,
     operationID: string
   ) => Promise<MessageItem>;
+  createLogMessage: (content: string, level: string, operationID: string) => Promise<MessageItem>;
   createTextAtMessage: (
     params: AtMsgParams,
     operationID: string
@@ -521,4 +527,7 @@ export interface NativeOpenIMSDKInterface {
   unInitSDK: (operationID: string) => Promise<unknown>;
   updateFcmToken: (fcmToken: string, expireTime: number, operationID: string) => Promise<void>;
   setAppBadge: (appUnreadCount: number, operationID: string) => Promise<void>;
+  addUserCommand: (type: number, uuid: string, value: string, operationID: string) => Promise<unknown>;
+  deleteUserCommand: (type: number, uuid: string, operationID: string) => Promise<unknown>;
+  getAllUserCommands: (type: number, operationID: string) => Promise<unknown>;
 }

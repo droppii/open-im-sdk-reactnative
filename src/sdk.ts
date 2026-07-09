@@ -422,6 +422,26 @@ class OpenIMSDK extends Emitter {
     return this.invoke(NativeOpenIMSDK.markConversationMessageAsRead, [conversationID, operationID]);
   }
 
+  markAllConversationMessageAsRead(operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.markAllConversationMessageAsRead, [operationID]);
+  }
+
+  pinMsg(conversationID: string, clientMsgID: string, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.pinMsg, [conversationID, clientMsgID, operationID]);
+  }
+
+  unpinMsg(conversationID: string, clientMsgID: string, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.unpinMsg, [conversationID, clientMsgID, operationID]);
+  }
+
+  getPinnedMsgs(conversationID: string, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.getPinnedMsgs, [conversationID, operationID]);
+  }
+
+  getPinnedMessageList(getPinnedMessageListOptions: string, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.getPinnedMessageList, [getPinnedMessageListOptions, operationID]);
+  }
+
   setConversation(params: SetConversationParams, operationID: string = id()) {
     return this.invoke(NativeOpenIMSDK.setConversation, [params, operationID]);
   }
@@ -653,6 +673,22 @@ class OpenIMSDK extends Emitter {
 
   setAppBadge(appUnreadCount: number, operationID: string = id()) {
     return this.invoke(NativeOpenIMSDK.setAppBadge, [appUnreadCount, operationID]);
+  }
+
+  createLogMessage(content: string, level: string, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.createLogMessage, [content, level, operationID]);
+  }
+
+  addUserCommand(type: number, uuid: string, value: string, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.addUserCommand, [type, uuid, value, operationID]);
+  }
+
+  deleteUserCommand(type: number, uuid: string, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.deleteUserCommand, [type, uuid, operationID]);
+  }
+
+  getAllUserCommands(type: number, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.getAllUserCommands, [type, operationID]);
   }
 }
 
