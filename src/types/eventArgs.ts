@@ -10,6 +10,7 @@ import {
   GroupItem,
   GroupMemberItem,
   MessageItem,
+  MessagePinned,
   ReceiptInfo,
   RevokedInfo,
   SelfUserInfo,
@@ -54,6 +55,7 @@ export type EventCallbackArgsMap = {
   [OpenIMEvent.OnMsgDeleted]: [message: MessageItem]; // FIXME: Type may be inaccurate, Golang core returns LocalChatLog type which has fewer properties than MessageItem here
   [OpenIMEvent.OnRecvC2CReadReceipt]: [receipts: ReceiptInfo[]];
   [OpenIMEvent.OnNewRecvMessageRevoked]: [revokedInfo: RevokedInfo];
+  [OpenIMEvent.OnRecvMessagePinned]: [messagePinned: MessagePinned];
 
   [OpenIMEvent.OnConversationChanged]: [conversations: ConversationItem[]];
   [OpenIMEvent.OnInputStatusChanged]: [inputStatus: ConversationInputStatus];

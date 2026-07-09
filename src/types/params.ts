@@ -443,3 +443,8 @@ export type LogsParams = {
   err: string;
   keyAndValue: string[];
 };
+export type GetPinnedMessageListParams = {
+  conversationID: string;
+  offset: number;
+  pageSize: number;
+};

@@ -70,6 +70,7 @@ RCT_EXPORT_MODULE()
   @"onRecvNewMessage",
   @"onRecvOfflineNewMessage",
   @"onRecvOnlineOnlyMessage",
+  @"onRecvMessagePinned",
   @"onRecvMessageExtensionsAdded",
   @"onRecvMessageExtensionsChanged",
   @"onRecvMessageExtensionsDeleted",
@@ -276,9 +277,12 @@ RCT_EXPORT_METHOD(getPinnedMsgs:(NSString *)conversationID operationID:(NSString
     Open_im_sdkGetPinnedMsgs(proxy, operationID, conversationID);
 }
 
-RCT_EXPORT_METHOD(getPinnedMessageList:(NSString *)getPinnedMessageListOptions operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+RCT_EXPORT_METHOD(getPinnedMessageList:(NSDictionary *)options operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
-    Open_im_sdkGetPinnedMessageList(proxy, operationID, getPinnedMessageListOptions);
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:options options:0 error:&error];
+    NSString *jsonString = jsonData ? [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding] : @"{}";
+    Open_im_sdkGetPinnedMessageList(proxy, operationID, jsonString);
 }
 
 RCT_EXPORT_METHOD(markAllConversationMessageAsRead:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {

@@ -62,6 +62,7 @@ import {
   SoundMsgParams,
   SplitConversationParams,
   SplitConversationAppParams,
+  GetPinnedMessageListParams,
   TransferGroupParams,
   TypingUpdateParams,
   UpdateFriendsParams,
@@ -438,8 +439,8 @@ class OpenIMSDK extends Emitter {
     return this.invoke(NativeOpenIMSDK.getPinnedMsgs, [conversationID, operationID]);
   }
 
-  getPinnedMessageList(getPinnedMessageListOptions: string, operationID: string = id()) {
-    return this.invoke(NativeOpenIMSDK.getPinnedMessageList, [getPinnedMessageListOptions, operationID]);
+  getPinnedMessageList(params: GetPinnedMessageListParams, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.getPinnedMessageList, [params, operationID]);
   }
 
   setConversation(params: SetConversationParams, operationID: string = id()) {

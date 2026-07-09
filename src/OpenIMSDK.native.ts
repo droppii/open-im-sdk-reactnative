@@ -16,9 +16,12 @@ import {
   SearchMessageResult,
   FriendUserItem,
   PublicUserItem,
+  PinnedMsgInfo,
+  GetPinnedMessageListResult,
 } from './types/entity';
 import { LoginStatus, MessageReceiveOptType } from './types/enum';
 import {
+  GetPinnedMessageListParams,
   AccessFriendParams,
   AccessGroupParams,
   AddBlackParams,
@@ -337,8 +340,8 @@ export interface NativeOpenIMSDKInterface {
   markAllConversationMessageAsRead: (operationID: string) => Promise<unknown>;
   pinMsg: (conversationID: string, clientMsgID: string, operationID: string) => Promise<unknown>;
   unpinMsg: (conversationID: string, clientMsgID: string, operationID: string) => Promise<unknown>;
-  getPinnedMsgs: (conversationID: string, operationID: string) => Promise<MessageItem[]>;
-  getPinnedMessageList: (getPinnedMessageListOptions: string, operationID: string) => Promise<MessageItem[]>;
+  getPinnedMsgs: (conversationID: string, operationID: string) => Promise<PinnedMsgInfo[]>;
+  getPinnedMessageList: (params: GetPinnedMessageListParams, operationID: string) => Promise<GetPinnedMessageListResult>;
   setConversation: (
     params: SetConversationParams,
     operationID: string

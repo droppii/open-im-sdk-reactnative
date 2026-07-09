@@ -231,6 +231,28 @@ export type UrlTextElem = {
 export type LogTextElem = {
   content: string;
 };
+export type MessagePinned = {
+  conversationID: string;
+  seq: number;
+  clientMsgID: string;
+  serverMsgID: string;
+  operatorUserID: string;
+  operatorNickname: string;
+  pinnedTime: number;
+  isPinned: boolean;
+};
+export type PinnedMsgInfo = {
+  seq: number;
+  pinnedByUserID: string;
+  pinnedTime: number;
+  clientMsgID: string;
+  serverMsgID: string;
+};
+export type GetPinnedMessageListResult = {
+  messageList: MessageItem[];
+  totalCount: number;
+  isEnd: boolean;
+};
 export type CardElem = {
   userID: string;
   nickname: string;

@@ -202,8 +202,8 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void getPinnedMessageList(String getPinnedMessageListOptions, String operationID, Promise promise) {
-    Open_im_sdk.getPinnedMessageList(new BaseImpl(promise), operationID, getPinnedMessageListOptions);
+  public void getPinnedMessageList(ReadableMap options, String operationID, Promise promise) {
+    Open_im_sdk.getPinnedMessageList(new BaseImpl(promise), operationID, map2string(options));
   }
 
   @ReactMethod
