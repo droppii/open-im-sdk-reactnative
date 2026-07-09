@@ -252,6 +252,10 @@ FOUNDATION_EXPORT void Open_im_sdkGetMultipleConversation(id<Open_im_sdk_callbac
 
 FOUNDATION_EXPORT void Open_im_sdkGetOneConversation(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, int32_t sessionType, NSString* _Nullable sourceID);
 
+FOUNDATION_EXPORT void Open_im_sdkGetPinnedMessageList(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable getPinnedMessageListOptions);
+
+FOUNDATION_EXPORT void Open_im_sdkGetPinnedMsgs(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable conversationID);
+
 FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkGetSdkVersion(void);
 
 /**
@@ -317,6 +321,8 @@ FOUNDATION_EXPORT void Open_im_sdkMarkMessagesAsReadByMsgID(id<Open_im_sdk_callb
 FOUNDATION_EXPORT void Open_im_sdkNetworkStatusChanged(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID);
 
 FOUNDATION_EXPORT Open_im_sdkLoginMgr* _Nullable Open_im_sdkNewLoginMgr(void);
+
+FOUNDATION_EXPORT void Open_im_sdkPinMsg(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable conversationID, NSString* _Nullable clientMsgID);
 
 FOUNDATION_EXPORT void Open_im_sdkQuitGroup(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable groupID);
 
@@ -387,6 +393,8 @@ FOUNDATION_EXPORT void Open_im_sdkTransferGroupOwner(id<Open_im_sdk_callbackBase
 FOUNDATION_EXPORT void Open_im_sdkTypingStatusUpdate(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable recvID, NSString* _Nullable msgTip);
 
 FOUNDATION_EXPORT void Open_im_sdkUnInitSDK(NSString* _Nullable operationID);
+
+FOUNDATION_EXPORT void Open_im_sdkUnpinMsg(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable conversationID, NSString* _Nullable clientMsgID);
 
 /**
  * UnsubscribeUsersStatus Unsubscribe a user's presence.
