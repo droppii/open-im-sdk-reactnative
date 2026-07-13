@@ -3,12 +3,12 @@ name: release-openim-sdk
 description: |
   Full release automation for OpenIM SDK React Native wrapper. Use this skill whenever the user wants to release, build, or publish the OpenIM SDK — whether they say "release openim", "build sdk", "tạo release", "chạy release sdk", "publish sdk reactnative", or any variation. Also trigger when the user mentions building AAR/xcframework and pushing to the RN project.
 
-  This skill handles the complete pipeline: pulling a source tag from openimsdk-core → building Android AAR and iOS xcframework via gomobile → copying artifacts into open-im-sdk-reactnative → patching native imports to use local files → versioning and git tagging.
+  This skill handles the complete pipeline: pulling a source tag from openimsdk-core → building Android AAR and iOS xcframework via gomobile → copying artifacts into open-im-sdk-reactnative → diffing Go source to detect ALL changes → updating Android, iOS, and TypeScript bridges.
 ---
 
 # Release OpenIM SDK
 
-This skill automates the full release pipeline for the OpenIM SDK React Native wrapper. It takes a source tag from `openimsdk-core`, builds Android and iOS native libraries, integrates them into `open-im-sdk-reactnative`, and publishes a new versioned release.
+This skill automates the full release pipeline for the OpenIM SDK React Native wrapper. It takes a source tag from `openimsdk-core`, builds Android and iOS native libraries, integrates them into `open-im-sdk-reactnative`, and automatically updates all bridge layers with every change detected in the new SDK version.
 
 ## Paths
 
@@ -27,19 +27,32 @@ Use `$RN_DIR` and `$CORE_DIR` everywhere instead of hardcoded paths.
 
 Ask the user:
 
-> Nhập tag của openimsdk-core cần build (VD: v3.8.3-patch.11):
+> Nhập tag của openimsdk-core cần build (VD: 0.0.1-rc11):
 
 Store the answer as `SOURCE_TAG`.
+
+Fetch tags from remote, then read the last built tag from the tracking file:
+
+```bash
+cd "$CORE_DIR"
+git fetch --tags
+
+LAST_TAG_FILE="$RN_DIR/.last-core-tag"
+if [ -f "$LAST_TAG_FILE" ]; then
+  PREV_TAG=$(cat "$LAST_TAG_FILE")
+else
+  PREV_TAG=""
+fi
+```
+
+Inform the user: "Sẽ diff từ `$PREV_TAG` → `$SOURCE_TAG`" (nếu có). If `PREV_TAG` is empty (file chưa tồn tại = lần build đầu tiên), do a full analysis of all Go source files instead of a diff.
 
 ---
 
 ## Step 2 — Pull tag from openimsdk-core
 
 ```bash
-RN_DIR=$(git rev-parse --show-toplevel)
-CORE_DIR=$(dirname "$RN_DIR")/openimsdk-core
 cd "$CORE_DIR"
-git fetch --tags
 git checkout <SOURCE_TAG>
 ```
 
@@ -50,8 +63,6 @@ Confirm the checkout succeeded before proceeding.
 ## Step 3 — Build Android AAR
 
 ```bash
-RN_DIR=$(git rev-parse --show-toplevel)
-CORE_DIR=$(dirname "$RN_DIR")/openimsdk-core
 cd "$CORE_DIR"
 make android
 ```
@@ -63,8 +74,6 @@ Expected output: `open_im_sdk.aar` in the project root directory. This may take 
 ## Step 4 — Build iOS xcframework
 
 ```bash
-RN_DIR=$(git rev-parse --show-toplevel)
-CORE_DIR=$(dirname "$RN_DIR")/openimsdk-core
 cd "$CORE_DIR"
 make ios
 ```
@@ -76,7 +85,6 @@ Expected output: `build/OpenIMCore.xcframework` in the project root. Also takes 
 ## Step 5 — Prepare artifact directories
 
 ```bash
-RN_DIR=$(git rev-parse --show-toplevel)
 mkdir -p "$RN_DIR/native-libs/android"
 mkdir -p "$RN_DIR/native-libs/ios"
 ```
@@ -85,12 +93,7 @@ mkdir -p "$RN_DIR/native-libs/ios"
 
 ## Step 6 — Copy artifacts (always replace existing)
 
-Remove any previously built files first to ensure a clean copy:
-
 ```bash
-RN_DIR=$(git rev-parse --show-toplevel)
-CORE_DIR=$(dirname "$RN_DIR")/openimsdk-core
-
 rm -f "$RN_DIR/native-libs/android/open_im_sdk.aar"
 rm -rf "$RN_DIR/native-libs/ios/OpenIMCore.xcframework"
 
@@ -100,74 +103,209 @@ cp -r "$CORE_DIR/build/OpenIMCore.xcframework" "$RN_DIR/native-libs/ios/OpenIMCo
 
 Verify both files exist after copying before continuing.
 
----
-
-## Step 7 — Patch Android: switch from Maven remote to local AAR
-
-File: `android/build.gradle` inside the RN project.
-
-Find and replace the remote dependency with the local fileTree import:
-
-**Before:**
-```gradle
-implementation("com.droppii:core-sdk:+")
-```
-
-**After:**
-```gradle
-implementation fileTree(dir: '../native-libs/android', include: ['*.aar'])
-```
-
-Use the Edit tool to make this change precisely — do not alter any other lines.
-
----
-
-## Step 8 — Patch iOS podspec: switch from CocoaPods to local xcframework
-
-File: `open-im-sdk-rn.podspec` inside the RN project.
-
-Read the file and find the line that matches `s.dependency "DroppiiOpenIMSDKCore"` (any version string). Use the exact text found as `old_string` in the Edit tool, and replace the entire line with:
-
-```ruby
-s.vendored_frameworks = 'native-libs/ios/OpenIMCore.xcframework'
-```
-
-Use the Edit tool — one precise replacement, nothing else changed.
-
----
-
-## Step 9 — Get release version and update package.json
-
-Ask the user:
-
-> Nhập version release cho open-im-sdk-reactnative (VD: 1.0.0-rc4):
-
-Store the answer as `RELEASE_VERSION`.
-
-Update the `version` field in `package.json` to `RELEASE_VERSION` using the Edit tool.
-
----
-
-## Step 10 — Commit, tag, and push
+Then save the current tag so the next build knows where to diff from:
 
 ```bash
-RN_DIR=$(git rev-parse --show-toplevel)
-cd "$RN_DIR"
-git add android/build.gradle open-im-sdk-rn.podspec package.json native-libs/
-git commit -m "chore: release <RELEASE_VERSION> - use local OpenIM SDK built from <SOURCE_TAG>"
-git tag "v<RELEASE_VERSION>"
-git push origin HEAD
-git push origin "v<RELEASE_VERSION>"
+echo "$SOURCE_TAG" > "$RN_DIR/.last-core-tag"
 ```
 
-Substitute `<RELEASE_VERSION>` and `<SOURCE_TAG>` with the actual values collected earlier.
+Add `.last-core-tag` to `.gitignore` if it isn't already tracked (check with `git ls-files .last-core-tag`). If not tracked, append it:
 
-After pushing, inform the user that the `v<RELEASE_VERSION>` tag has been pushed and the GitHub Actions `release.yml` workflow will automatically trigger to publish the npm package.
+```bash
+grep -qxF '.last-core-tag' "$RN_DIR/.gitignore" || echo '.last-core-tag' >> "$RN_DIR/.gitignore"
+```
+
+---
+
+## Step 7 — Diff Go source to detect all changes
+
+This is the primary source of truth. The Go source captures **everything**: new functions, new callbacks, new struct fields, renamed fields, new types, new enums — things that header/javap analysis would miss.
+
+### Key Go source files to diff
+
+```bash
+cd "$CORE_DIR"
+git diff "$PREV_TAG" "$SOURCE_TAG" -- \
+  open_im_sdk/ \
+  open_im_sdk_callback/callback_client.go \
+  sdk_struct/sdk_struct.go \
+  pkg/sdk_params_callback/
+```
+
+Run the full diff and read it carefully. Categorize every `+` line (addition) and `-` line (removal) in the diff output.
+
+### What to look for in the diff
+
+**A) New exported functions** — new `func Xxx(...)` in `open_im_sdk/*.go`
+- These need new bridge methods in Android (`@ReactMethod`) and iOS (`RCT_EXPORT_METHOD`)
+- And new TypeScript declarations in `OpenIMSDK.native.ts` + `sdk.ts`
+
+**B) New callback methods** — new method added to an interface in `open_im_sdk_callback/callback_client.go`
+- Example: `OnRecvMessagePinned(message string)` added to `OnAdvancedMsgListener`
+- These need: Android `AdvancedMsgListener.java` override, iOS `supportedEvents` + handler, TS event constant + type
+
+**C) New struct fields** — new `FieldName type` line inside a `type Xxx struct` block in `sdk_struct/sdk_struct.go` or `pkg/sdk_params_callback/*.go`
+- These need the corresponding TypeScript type in `src/types/entity.ts` or `src/types/params.ts` to be updated
+
+**D) New struct types** — new `type Xxx struct` added
+- Need new TypeScript type definition in `src/types/entity.ts`
+
+**E) Changed/removed items** — `-` lines showing removals or renames
+- Flag these to the user as potentially breaking changes
+
+---
+
+## Step 8 — Read current bridge files
+
+Read these files to know what is currently implemented before making any edits:
+
+- `android/src/main/java/com/openimsdkrn/OpenImSdkRnModule.java`
+- `android/src/main/java/com/openimsdkrn/listener/AdvancedMsgListener.java`
+- `ios/OpenImSdkRn.m`
+- `src/OpenIMSDK.native.ts`
+- `src/sdk.ts`
+- `src/constants/OpenIMEvents.ts`
+- `src/types/eventArgs.ts`
+- `src/types/entity.ts`
+- `src/types/params.ts`
+
+---
+
+## Step 9 — Apply all updates
+
+For each change detected in Step 7, apply edits using the Edit tool.
+
+### Go type → TypeScript type mapping
+
+Use this table when a Go struct name must be mapped to its TypeScript equivalent:
+
+| Go struct | TypeScript type | File |
+|---|---|---|
+| `MsgStruct` | `MessageItem` | `entity.ts` |
+| `MessagePinned` | `MessagePinned` | `entity.ts` |
+| `MessageRevoked` | `MessageRevoked` | `entity.ts` |
+| `MessageReceipt` | `MessageReceipt` | `entity.ts` |
+| `ConversationStruct` (from server proto) | `ConversationItem` | `entity.ts` |
+| `PublicUser` | `PublicUserItem` | `entity.ts` |
+| `FriendInfo` (from server proto) | `FriendItem` | `entity.ts` |
+| `GroupInfo` (from server proto) | `GroupItem` | `entity.ts` |
+| `GroupMemberInfo` | `GroupMemberItem` | `entity.ts` |
+| `PinnedMsgInfo` | `PinnedMsgInfo` | `entity.ts` |
+| `GetAdvancedHistoryMessageListCallback` | `AdvancedGetMessageResult` | `entity.ts` |
+| `GetPinnedMessageListCallback` | `GetPinnedMessageListResult` | `entity.ts` |
+| `GetPinnedMessageListParams` | `GetPinnedMessageListParams` | `params.ts` |
+| `SearchLocalMessagesParams` | `SearchLocalParams` | `params.ts` |
+| `FindMessageListCallback` | `FindMessageResult` | `entity.ts` |
+
+If a Go struct is NOT in this table, use the Go name as the TypeScript name (PascalCase) and add it to `entity.ts`. Also add a comment `// TODO: verify mapping from Go struct <GoName>` if uncertain.
+
+### Go field type → TypeScript type mapping
+
+| Go type | TypeScript type |
+|---|---|
+| `string` | `string` |
+| `int`, `int32`, `int64` | `number` |
+| `bool` | `boolean` |
+| `[]string` | `string[]` |
+| `[]*MsgStruct` | `MessageItem[]` |
+| any pointer to a known struct | the mapped TS type |
+| `interface{}` | `unknown` |
+
+### Applying changes
+
+**A) New exported function → bridge method:**
+
+Android `OpenImSdkRnModule.java`:
+```java
+@ReactMethod
+public void methodName(String param1, String operationID, Promise promise) {
+  Open_im_sdk.methodName(param1, new BaseCallback(promise), operationID);
+}
+```
+For object params: accept `ReadableMap options` and use `map2string(options)` to serialize.
+
+iOS `OpenImSdkRn.m`:
+```objc
+RCT_EXPORT_METHOD(methodName:(NSString *)param1 operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  Open_im_sdkMethodName(param1, [BaseCallback new:operationID resolve:resolve reject:reject], operationID);
+}
+```
+For object params: accept `NSDictionary *options` and serialize:
+```objc
+NSData *data = [NSJSONSerialization dataWithJSONObject:options options:0 error:nil];
+NSString *optStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+```
+
+TypeScript `OpenIMSDK.native.ts` — add to interface:
+```ts
+methodName: (param1: string, operationID: string) => Promise<ReturnType>;
+```
+
+TypeScript `sdk.ts` — add wrapper:
+```ts
+methodName(param1: string, operationID: string = id()) {
+  return this._module.methodName(param1, operationID);
+}
+```
+
+**B) New callback method → event:**
+
+Android `AdvancedMsgListener.java`:
+```java
+@Override
+public void onRecvXxx(String s) {
+  send(ctx, "onRecvXxx", jsonStringToMap(s));
+}
+```
+
+iOS `OpenImSdkRn.m` — add to `supportedEvents` array:
+```objc
+@"onRecvXxx",
+```
+iOS `OpenImSdkRn.m` — add handler method:
+```objc
+- (void)onRecvXxx:(NSString *)message {
+  [self sendEventWithName:@"onRecvXxx" body:message];
+}
+```
+
+TypeScript `src/constants/OpenIMEvents.ts`:
+```ts
+OnRecvXxx: 'onRecvXxx',
+```
+
+TypeScript `src/types/eventArgs.ts`:
+```ts
+[OpenIMEvent.OnRecvXxx]: [data: XxxType];
+```
+
+**C) New/updated struct field → TypeScript type update:**
+
+Find the existing TypeScript type in `entity.ts` using the mapping table.
+Add the new field using the type mapping table.
+If the struct is brand new, add the complete type definition.
+
+---
+
+## Step 10 — Summary report
+
+After all edits, print a report:
+
+```
+=== Bridge Update Summary ===
+New functions bridged:       X  (list names)
+New callbacks/events added:  X  (list names)
+New/updated TS types:        X  (list names)
+Breaking changes flagged:    X  (list with description)
+Manual review needed:        X  (list with reason)
+```
 
 ---
 
 ## Error handling
 
-- If `make android` or `make ios` fails, stop and show the error output to the user. Do not proceed to copy or patch files.
-- If either artifact file is missing after the build, report the missing file and stop.
-- If a git command fails (e.g., tag already exists), report the exact error and ask the user how to proceed.
+- If `make android` or `make ios` fails, stop and show the error output. Do not copy or continue.
+- If either artifact is missing after the build, stop and report.
+- If `.last-core-tag` does not exist (first build ever), do a full read of all Go source files (`open_im_sdk/`, `open_im_sdk_callback/callback_client.go`, `sdk_struct/sdk_struct.go`, `pkg/sdk_params_callback/`) and compare against current bridge files manually instead of diffing.
+- If a Go struct is not in the mapping table and the name is ambiguous, add the TS type with `// TODO: verify mapping` and flag it in the summary.
+- If a Go function signature uses a type not yet mapped to TypeScript, use `unknown` and flag it.

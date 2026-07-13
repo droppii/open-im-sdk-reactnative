@@ -196,7 +196,12 @@ export type MessageItem = {
   content: string;
   seq: number;
   isRead: boolean;
+  isInternal?: boolean;
+  isPinned?: boolean;
+  pinnedByUserID?: string;
+  pinnedTime?: number;
   status: MessageStatus;
+  attachedInfo?: string;
   isReact?: boolean;
   isExternalExtensions?: boolean;
   offlinePush?: OfflinePush;
@@ -218,7 +223,7 @@ export type MessageItem = {
   advancedTextElem?: AdvancedTextElem;
   typingElem?: TypingElem;
   urlTextElem?: UrlTextElem;
-  logTextElem?: LogTextElem;
+  logElem?: LogElem;
   attachedInfoElem: AttachedInfoElem;
 };
 export type TextElem = {
@@ -228,8 +233,9 @@ export type UrlTextElem = {
   content: string;
   urls: string[];
 };
-export type LogTextElem = {
+export type LogElem = {
   content: string;
+  level?: string;
 };
 export type MessagePinned = {
   conversationID: string;
@@ -251,6 +257,7 @@ export type PinnedMsgInfo = {
 export type GetPinnedMessageListResult = {
   messageList: MessageItem[];
   totalCount: number;
+  remainingPinCount: number;
   isEnd: boolean;
 };
 export type CardElem = {
