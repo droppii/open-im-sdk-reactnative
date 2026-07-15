@@ -512,7 +512,7 @@ export interface NativeOpenIMSDKInterface {
   findMessageList: (
     params: FindMessageParams[],
     operationID: string
-  ) => Promise<MessageItem[]>;
+  ) => Promise<SearchMessageResult>;
   insertGroupMessageToLocalStorage: (
     params: InsertGroupMsgParams,
     operationID: string

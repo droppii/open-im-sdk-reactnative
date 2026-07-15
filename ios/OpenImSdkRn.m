@@ -774,11 +774,9 @@ RCT_EXPORT_METHOD(sendMessageNotOss:(NSDictionary *)options operationID:(NSStrin
     Open_im_sdkSendMessageNotOss(proxy, operationID, [message json], recvID, groupID, [offlinePushInfo json], isOnlineOnly);
 }
 
-RCT_EXPORT_METHOD(findMessageList:(NSDictionary *)findOptions operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+RCT_EXPORT_METHOD(findMessageList:(NSArray *)findOptions operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
-    NSString *findOptionsJson = [findOptions json];
-    
-    Open_im_sdkFindMessageList(proxy, operationID, findOptionsJson);
+    Open_im_sdkFindMessageList(proxy, operationID, [findOptions json]);
 }
 
 RCT_EXPORT_METHOD(getAdvancedHistoryMessageList:(NSDictionary *)findOptions operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
