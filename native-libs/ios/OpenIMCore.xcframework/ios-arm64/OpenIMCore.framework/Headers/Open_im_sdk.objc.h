@@ -158,6 +158,8 @@ FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateSoundMessageByURL(NSString
 
 FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateSoundMessageFromFullPath(NSString* _Nullable operationID, NSString* _Nullable soundPath, int64_t duration);
 
+FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateStickerMessage(NSString* _Nullable operationID, NSString* _Nullable content);
+
 FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateTextAtMessage(NSString* _Nullable operationID, NSString* _Nullable text, NSString* _Nullable atUserList, NSString* _Nullable atUsersInfo, NSString* _Nullable message);
 
 FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateTextMessage(NSString* _Nullable operationID, NSString* _Nullable text);
@@ -352,7 +354,7 @@ FOUNDATION_EXPORT void Open_im_sdkSetAdvancedMsgListener(id<Open_im_sdk_callback
 
 FOUNDATION_EXPORT void Open_im_sdkSetAppBackgroundStatus(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, BOOL isBackground);
 
-FOUNDATION_EXPORT void Open_im_sdkSetAppBadge(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, int32_t appUnreadCount);
+FOUNDATION_EXPORT void Open_im_sdkSetAppBadge(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, int32_t appUnreadCount, NSString* _Nullable project);
 
 FOUNDATION_EXPORT void Open_im_sdkSetBatchMsgListener(id<Open_im_sdk_callbackOnBatchMsgListener> _Nullable listener);
 
@@ -401,7 +403,7 @@ FOUNDATION_EXPORT void Open_im_sdkUnpinMsg(id<Open_im_sdk_callbackBase> _Nullabl
  */
 FOUNDATION_EXPORT void Open_im_sdkUnsubscribeUsersStatus(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable userIDs);
 
-FOUNDATION_EXPORT void Open_im_sdkUpdateFcmToken(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable fcmToken, int64_t expireTime);
+FOUNDATION_EXPORT void Open_im_sdkUpdateFcmToken(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable fcmToken, int64_t expireTime, NSString* _Nullable project);
 
 FOUNDATION_EXPORT void Open_im_sdkUpdateFriends(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable req);
 

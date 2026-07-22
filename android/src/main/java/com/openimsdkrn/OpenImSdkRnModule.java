@@ -379,6 +379,17 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void createStickerMessage(String content, String operationID, Promise promise) {
+    String message = Open_im_sdk.createStickerMessage(operationID, content);
+    try {
+      JSONObject obj = JSON.parseObject(message);
+      promise.resolve(emitter.convertJsonToMap(obj));
+    } catch (Exception e) {
+      promise.resolve(message);
+    }
+  }
+
+  @ReactMethod
   public void createUrlTextMessage(String textMsg, String urls, String operationID, Promise promise) {
     String message = Open_im_sdk.createUrlTextMessage(operationID, textMsg, urls);
     try {
@@ -1099,8 +1110,8 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void updateFcmToken(String fcmToken, double expireTime, String operationID, Promise promise) {
-    Open_im_sdk.updateFcmToken(new BaseImpl(promise), operationID, fcmToken, (int)expireTime);
+  public void updateFcmToken(String fcmToken, double expireTime, String project, String operationID, Promise promise) {
+    Open_im_sdk.updateFcmToken(new BaseImpl(promise), operationID, fcmToken, (int)expireTime, project);
   }
 
   @ReactMethod
@@ -1161,8 +1172,8 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void setAppBadge(double appUnreadCount, String operationID, Promise promise) {
-    Open_im_sdk.setAppBadge(new BaseImpl(promise), operationID, (int)appUnreadCount);
+  public void setAppBadge(double appUnreadCount, String project, String operationID, Promise promise) {
+    Open_im_sdk.setAppBadge(new BaseImpl(promise), operationID, (int)appUnreadCount, project);
   }
 
   @ReactMethod

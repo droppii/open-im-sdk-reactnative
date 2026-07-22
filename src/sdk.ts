@@ -668,16 +668,20 @@ class OpenIMSDK extends Emitter {
     return this.invoke(NativeOpenIMSDK.unInitSDK, [operationID]);
   }
 
-  updateFcmToken(fcmToken: string, expireTime: number, operationID: string = id()) {
-    return this.invoke(NativeOpenIMSDK.updateFcmToken, [fcmToken, expireTime, operationID]);
+  updateFcmToken(fcmToken: string, expireTime: number, project: string = '', operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.updateFcmToken, [fcmToken, expireTime, project, operationID]);
   }
 
-  setAppBadge(appUnreadCount: number, operationID: string = id()) {
-    return this.invoke(NativeOpenIMSDK.setAppBadge, [appUnreadCount, operationID]);
+  setAppBadge(appUnreadCount: number, project: string = '', operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.setAppBadge, [appUnreadCount, project, operationID]);
   }
 
   createLogMessage(content: string, level: string, operationID: string = id()) {
     return this.invoke(NativeOpenIMSDK.createLogMessage, [content, level, operationID]);
+  }
+
+  createStickerMessage(content: string, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.createStickerMessage, [content, operationID]);
   }
 
   addUserCommand(type: number, uuid: string, value: string, operationID: string = id()) {

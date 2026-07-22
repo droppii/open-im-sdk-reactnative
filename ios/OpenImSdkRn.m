@@ -468,6 +468,16 @@ RCT_EXPORT_METHOD(createLogMessage:(NSString *)content level:(NSString *)level o
     }
 }
 
+RCT_EXPORT_METHOD(createStickerMessage:(NSString *)content operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+    NSString *result = Open_im_sdkCreateStickerMessage(operationID, content);
+    NSDictionary *message = [self parseJsonStr2Dict:result];
+    if (message) {
+        resolver(message);
+    } else {
+        resolver(result);
+    }
+}
+
 RCT_EXPORT_METHOD(createUrlTextMessage:(NSString *)textMsg urls:(NSString *)urls operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     NSString *result = Open_im_sdkCreateUrlTextMessage(operationID, textMsg, urls);
     NSDictionary *message = [self parseJsonStr2Dict:result];
@@ -1301,14 +1311,14 @@ RCT_EXPORT_METHOD(unInitSDK:(NSString *)operationID resolver:(RCTPromiseResolveB
     Open_im_sdkUnInitSDK(operationID);
 }
 
-RCT_EXPORT_METHOD(updateFcmToken:(NSString *)fcmToken expireTime:(nonnull NSNumber *)expireTime operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+RCT_EXPORT_METHOD(updateFcmToken:(NSString *)fcmToken expireTime:(nonnull NSNumber *)expireTime project:(NSString *)project operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
-    Open_im_sdkUpdateFcmToken(proxy, operationID, fcmToken, (int64_t)[expireTime intValue]);
+    Open_im_sdkUpdateFcmToken(proxy, operationID, fcmToken, (int64_t)[expireTime intValue], project);
 }
 
-RCT_EXPORT_METHOD(setAppBadge:(nonnull NSNumber *)appUnreadCount operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+RCT_EXPORT_METHOD(setAppBadge:(nonnull NSNumber *)appUnreadCount project:(NSString *)project operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
-    Open_im_sdkSetAppBadge(proxy, operationID, (int32_t)[appUnreadCount intValue]);
+    Open_im_sdkSetAppBadge(proxy, operationID, (int32_t)[appUnreadCount intValue], project);
 }
 
 RCT_EXPORT_METHOD(uploadLogs:(NSDictionary *)options operationID:(NSString *)operationID  resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {

@@ -224,6 +224,7 @@ export type MessageItem = {
   typingElem?: TypingElem;
   urlTextElem?: UrlTextElem;
   logElem?: LogElem;
+  stickerElem?: StickerElem;
   attachedInfoElem: AttachedInfoElem;
 };
 export type TextElem = {
@@ -236,6 +237,9 @@ export type UrlTextElem = {
 export type LogElem = {
   content: string;
   level?: string;
+};
+export type StickerElem = {
+  content: string;
 };
 export type MessagePinned = {
   conversationID: string;

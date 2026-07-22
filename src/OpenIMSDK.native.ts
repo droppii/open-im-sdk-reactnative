@@ -407,6 +407,7 @@ export interface NativeOpenIMSDKInterface {
     operationID: string
   ) => Promise<MessageItem>;
   createLogMessage: (content: string, level: string, operationID: string) => Promise<MessageItem>;
+  createStickerMessage: (content: string, operationID: string) => Promise<MessageItem>;
   createTextAtMessage: (
     params: AtMsgParams,
     operationID: string
@@ -528,8 +529,8 @@ export interface NativeOpenIMSDKInterface {
   uploadLogs: (params: UploadLogsParams, operationID: string) => Promise<unknown>;
   logs: (params: LogsParams, operationID: string) => Promise<unknown>;
   unInitSDK: (operationID: string) => Promise<unknown>;
-  updateFcmToken: (fcmToken: string, expireTime: number, operationID: string) => Promise<void>;
-  setAppBadge: (appUnreadCount: number, operationID: string) => Promise<void>;
+  updateFcmToken: (fcmToken: string, expireTime: number, project: string, operationID: string) => Promise<void>;
+  setAppBadge: (appUnreadCount: number, project: string, operationID: string) => Promise<void>;
   addUserCommand: (type: number, uuid: string, value: string, operationID: string) => Promise<unknown>;
   deleteUserCommand: (type: number, uuid: string, operationID: string) => Promise<unknown>;
   getAllUserCommands: (type: number, operationID: string) => Promise<unknown>;
