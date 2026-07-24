@@ -69,6 +69,7 @@ export enum MessageType {
   QuoteMessage = 114,
   UrlTextMessage = 160,
   LogTextMessage = 161,
+  StickerMessage = 162,
   FaceMessage = 115,
   FriendAdded = 1201,
   OANotification = 1400,

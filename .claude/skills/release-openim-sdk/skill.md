@@ -121,18 +121,17 @@ grep -qxF '.last-core-tag' "$RN_DIR/.gitignore" || echo '.last-core-tag' >> "$RN
 
 This is the primary source of truth. The Go source captures **everything**: new functions, new callbacks, new struct fields, renamed fields, new types, new enums — things that header/javap analysis would miss.
 
-### Key Go source files to diff
+### Diff toàn bộ Go source
+
+Diff **toàn bộ** repo Go (trừ test và vendor) để không bao giờ miss khi core SDK thêm logic ở file mới:
 
 ```bash
 cd "$CORE_DIR"
-git diff "$PREV_TAG" "$SOURCE_TAG" -- \
-  open_im_sdk/ \
-  open_im_sdk_callback/callback_client.go \
-  sdk_struct/sdk_struct.go \
-  pkg/sdk_params_callback/
+git diff "$PREV_TAG" "$SOURCE_TAG" -- '*.go' \
+  | grep -v "^diff.*_test\.go\|^diff.*vendor/\|^diff.*wasm/"
 ```
 
-Run the full diff and read it carefully. Categorize every `+` line (addition) and `-` line (removal) in the diff output.
+Đọc toàn bộ output. Bỏ qua các thay đổi trong `internal/` trừ khi chúng ảnh hưởng đến public API (function exported trong `open_im_sdk/`, interface trong `open_im_sdk_callback/`, struct trong `sdk_struct/` hoặc `pkg/`).
 
 ### What to look for in the diff
 
@@ -152,6 +151,11 @@ Run the full diff and read it carefully. Categorize every `+` line (addition) an
 
 **E) Changed/removed items** — `-` lines showing removals or renames
 - Flag these to the user as potentially breaking changes
+
+**F) New message type constants** — new `Xxx = NNN` in any `constant.go` file, values in the 100–200 range
+- `pkg/constant/constant.go` — upstream SDK constants (e.g., `StickerMessage = 162`)
+- `protocol/constant/constant.go` — Droppii-specific constants (e.g., `MarkdownText = 118`, `ReactionMessageModifier = 121`)
+- New values in either file need a new entry in `MessageType` enum in `src/types/enum.ts`
 
 ---
 
