@@ -124,7 +124,7 @@ RCT_EXPORT_MODULE()
 
 - (void)pushEvent:(NSString *)eventName data:(id)data {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.listenerCount > 0 && self.callableJSModules != nil) {
+        if (hasListeners && self.callableJSModules != nil) {
             [self sendEventWithName:eventName body:data];
         }
     });
