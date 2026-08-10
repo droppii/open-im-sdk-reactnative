@@ -88,6 +88,8 @@ export type SelfUserInfo = {
   nickname: string;
   userID: string;
   globalRecvMsgOpt: MessageReceiveOptType;
+  attachedInfo?: string;
+  permissions?: string[];
 };
 export type PartialUserInfo = {
   userID: string;
@@ -141,6 +143,7 @@ export type GroupItem = {
   applyMemberFriend: AllowType;
   lookMemberInfo: AllowType;
   displayIsRead: boolean;
+  visibility?: number;
 };
 export type GroupMemberItem = {
   groupID: string;
@@ -154,6 +157,7 @@ export type GroupMemberItem = {
   inviterUserID: string;
   operatorUserID: string;
   ex: string;
+  permissions?: string[];
 };
 export type ConversationItem = {
   conversationID: string;

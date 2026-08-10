@@ -262,8 +262,9 @@ FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkGetSdkVersion(void);
 
 /**
  * GetSelfUserInfo obtains the user's own information.
+groupID is optional; when non-empty, response includes permissions in that group.
  */
-FOUNDATION_EXPORT void Open_im_sdkGetSelfUserInfo(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID);
+FOUNDATION_EXPORT void Open_im_sdkGetSelfUserInfo(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable groupID);
 
 FOUNDATION_EXPORT void Open_im_sdkGetSpecifiedFriendsInfo(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable userIDList, BOOL filterBlack);
 

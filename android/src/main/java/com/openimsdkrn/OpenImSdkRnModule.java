@@ -138,8 +138,8 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void getSelfUserInfo(String operationID, Promise promise) {
-    Open_im_sdk.getSelfUserInfo(new BaseImpl(promise), operationID);
+  public void getSelfUserInfo(String groupID, String operationID, Promise promise) {
+    Open_im_sdk.getSelfUserInfo(new BaseImpl(promise), operationID, groupID);
   }
 
   @ReactMethod

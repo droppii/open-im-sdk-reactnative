@@ -143,8 +143,12 @@ git diff "$PREV_TAG" "$SOURCE_TAG" -- '*.go' \
 - Example: `OnRecvMessagePinned(message string)` added to `OnAdvancedMsgListener`
 - These need: Android `AdvancedMsgListener.java` override, iOS `supportedEvents` + handler, TS event constant + type
 
-**C) New struct fields** — new `FieldName type` line inside a `type Xxx struct` block in `sdk_struct/sdk_struct.go` or `pkg/sdk_params_callback/*.go`
-- These need the corresponding TypeScript type in `src/types/entity.ts` or `src/types/params.ts` to be updated
+**C) New struct fields** — new `FieldName type` line inside a `type Xxx struct` block in ANY of these files:
+- `sdk_struct/sdk_struct.go`
+- `pkg/sdk_params_callback/*.go`
+- `pkg/db/model_struct/data_model_struct.go` — internal DB model, nhưng các struct như `LocalUser`, `LocalConversation`, `LocalBlack`… được JSON-serialize và trả về qua callback → phải sync với TS types
+
+These need the corresponding TypeScript type in `src/types/entity.ts` or `src/types/params.ts` to be updated.
 
 **D) New struct types** — new `type Xxx struct` added
 - Need new TypeScript type definition in `src/types/entity.ts`

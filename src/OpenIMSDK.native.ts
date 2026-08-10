@@ -133,7 +133,7 @@ export interface NativeOpenIMSDKInterface {
     userIDList: string[],
     operationID: string
   ) => Promise<PublicUserItem[]>;
-  getSelfUserInfo: (operationID: string) => Promise<SelfUserInfo>;
+  getSelfUserInfo: (groupID: string, operationID: string) => Promise<SelfUserInfo>;
   setSelfInfo: (
     params: Partial<SelfUserInfo>,
     operationID: string

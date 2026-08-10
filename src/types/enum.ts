@@ -141,6 +141,10 @@ export enum ViewType {
   History = 0,
   Search = 1,
 }
+export enum GroupVisibility {
+  Private = 0,
+  Public = 1,
+}
 export enum PeerType {
   Group = 'GROUP',
   Bot = 'BOT',

@@ -150,8 +150,8 @@ class OpenIMSDK extends Emitter {
     return this.invoke(NativeOpenIMSDK.getUsersInfo, [userIDList, operationID]);
   }
 
-  getSelfUserInfo(operationID: string = id()) {
-    return this.invoke(NativeOpenIMSDK.getSelfUserInfo, [operationID]);
+  getSelfUserInfo(groupID: string = '', operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.getSelfUserInfo, [groupID, operationID]);
   }
 
   setSelfInfo(params: Partial<SelfUserInfo>, operationID: string = id()) {

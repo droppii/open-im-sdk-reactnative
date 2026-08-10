@@ -123,7 +123,11 @@ RCT_EXPORT_MODULE()
 }
 
 - (void)pushEvent:(NSString *)eventName data:(id)data {
-    [self sendEventWithName:eventName body:data];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.listenerCount > 0 && self.callableJSModules != nil) {
+            [self sendEventWithName:eventName body:data];
+        }
+    });
 }
 
 - (NSDictionary *)parseJsonStr2Dict:(NSString *)jsonStr {
@@ -217,9 +221,9 @@ RCT_EXPORT_METHOD(setSelfInfo:(NSDictionary *)info operationID:(NSString *)opera
     Open_im_sdkSetSelfInfo(proxy,operationID,[info json]);
 }
 
-RCT_EXPORT_METHOD(getSelfUserInfo:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+RCT_EXPORT_METHOD(getSelfUserInfo:(NSString *)groupID operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy * proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
-    Open_im_sdkGetSelfUserInfo(proxy, operationID);
+    Open_im_sdkGetSelfUserInfo(proxy, operationID, groupID);
 }
 
 RCT_EXPORT_METHOD(getUserStatus:(NSArray *)uidList operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
