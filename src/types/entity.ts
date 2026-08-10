@@ -4,6 +4,7 @@ import type {
   GroupAtType,
   GroupJoinSource,
   GroupMemberRole,
+  GroupPermission,
   GroupStatus,
   GroupType,
   GroupVerificationType,
@@ -89,7 +90,7 @@ export type SelfUserInfo = {
   userID: string;
   globalRecvMsgOpt: MessageReceiveOptType;
   attachedInfo?: string;
-  permissions?: string[];
+  permissions?: GroupPermission[];
 };
 export type PartialUserInfo = {
   userID: string;
@@ -157,7 +158,7 @@ export type GroupMemberItem = {
   inviterUserID: string;
   operatorUserID: string;
   ex: string;
-  permissions?: string[];
+  permissions?: GroupPermission[];
 };
 export type ConversationItem = {
   conversationID: string;
