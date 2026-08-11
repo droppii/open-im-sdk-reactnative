@@ -262,7 +262,7 @@ FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkGetSdkVersion(void);
 
 /**
  * GetSelfUserInfo obtains the user's own information.
-groupID is optional; when non-empty, response includes permissions in that group.
+groupID is optional; when non-empty, response includes roleLevel and permissions in that group.
  */
 FOUNDATION_EXPORT void Open_im_sdkGetSelfUserInfo(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable groupID);
 
@@ -346,6 +346,8 @@ FOUNDATION_EXPORT void Open_im_sdkSearchGroupMembers(id<Open_im_sdk_callbackBase
 FOUNDATION_EXPORT void Open_im_sdkSearchGroups(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable searchParam);
 
 FOUNDATION_EXPORT void Open_im_sdkSearchLocalMessages(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable searchParam);
+
+FOUNDATION_EXPORT void Open_im_sdkSearchPublicGroups(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable keyword, int32_t joinStatus, int32_t offset, int32_t count);
 
 FOUNDATION_EXPORT void Open_im_sdkSendMessage(id<Open_im_sdk_callbackSendMsgCallBack> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable message, NSString* _Nullable recvID, NSString* _Nullable groupID, NSString* _Nullable offlinePushInfo, BOOL isOnlineOnly);
 

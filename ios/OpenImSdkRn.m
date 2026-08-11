@@ -1192,6 +1192,11 @@ RCT_EXPORT_METHOD(getGroupMemberOwnerAndAdmin:(NSString *)groupID operationID:(N
     Open_im_sdkGetGroupMemberOwnerAndAdmin(proxy, operationID, groupID);
 }
 
+RCT_EXPORT_METHOD(searchPublicGroups:(NSString *)keyword joinStatus:(int)joinStatus offset:(int)offset count:(int)count operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+    RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
+    Open_im_sdkSearchPublicGroups(proxy, operationID, keyword, joinStatus, offset, count);
+}
+
 RCT_EXPORT_METHOD(getGroupMemberListByJoinTimeFilter:(NSDictionary *)options operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
     NSString *groupID = options[@"groupID"];

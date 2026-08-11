@@ -91,6 +91,7 @@ export type SelfUserInfo = {
   globalRecvMsgOpt: MessageReceiveOptType;
   attachedInfo?: string;
   permissions?: GroupPermission[];
+  roleLevel?: number;
 };
 export type PartialUserInfo = {
   userID: string;
@@ -183,6 +184,12 @@ export type ConversationItem = {
   attachedInfo: string;
   ex?: string;
   peerType?: PeerType;
+  members?: ConversationGroupMember[];
+};
+export type ConversationGroupMember = {
+  userID: string;
+  nickname: string;
+  faceURL: string;
 };
 export type MessageItem = {
   clientMsgID: string;
@@ -480,4 +487,22 @@ export type GroupMessageReadInfo = {
   hasReadCount: number;
   unreadCount: number;
   readMembers: GroupMemberItem[];
+};
+export type SearchPublicGroupMemberInfo = {
+  userID: string;
+  nickname: string;
+  faceURL: string;
+};
+export type SearchPublicGroupInfo = {
+  groupID: string;
+  groupName: string;
+  faceURL: string;
+  introduction: string;
+  memberCount: number;
+  isJoined: boolean;
+  members: SearchPublicGroupMemberInfo[];
+};
+export type SearchPublicGroupsResult = {
+  total: number;
+  groups: SearchPublicGroupInfo[];
 };

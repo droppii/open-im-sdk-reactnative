@@ -355,6 +355,16 @@ class OpenIMSDK extends Emitter {
     return this.invoke(NativeOpenIMSDK.getGroupMemberOwnerAndAdmin, [groupID, operationID]);
   }
 
+  searchPublicGroups(
+    keyword: string,
+    joinStatus: number = 0,
+    offset: number = 0,
+    count: number = 20,
+    operationID: string = id()
+  ) {
+    return this.invoke(NativeOpenIMSDK.searchPublicGroups, [keyword, joinStatus, offset, count, operationID]);
+  }
+
   getGroupMemberListByJoinTimeFilter(
     params: GetGroupMemberByTimeParams,
     operationID: string = id()

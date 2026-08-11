@@ -145,6 +145,11 @@ export enum GroupVisibility {
   Private = 0,
   Public = 1,
 }
+export enum PublicGroupJoinStatus {
+  All = 0,
+  Joined = 1,
+  NotJoined = 2,
+}
 export enum GroupPermission {
   SendMessage = 'SEND_MESSAGE',
   PinMessage = 'PIN_MESSAGE',

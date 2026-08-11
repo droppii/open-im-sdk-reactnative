@@ -18,6 +18,7 @@ import {
   PublicUserItem,
   PinnedMsgInfo,
   GetPinnedMessageListResult,
+  SearchPublicGroupsResult,
 } from './types/entity';
 import { LoginStatus, MessageReceiveOptType } from './types/enum';
 import {
@@ -286,6 +287,13 @@ export interface NativeOpenIMSDKInterface {
     groupID: string,
     operationID: string
   ) => Promise<GroupMemberItem[]>;
+  searchPublicGroups: (
+    keyword: string,
+    joinStatus: number,
+    offset: number,
+    count: number,
+    operationID: string
+  ) => Promise<SearchPublicGroupsResult>;
   getGroupMemberListByJoinTimeFilter: (
     params: GetGroupMemberByTimeParams,
     operationID: string

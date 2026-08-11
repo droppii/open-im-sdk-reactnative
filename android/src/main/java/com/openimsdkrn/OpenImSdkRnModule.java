@@ -1027,6 +1027,11 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void searchPublicGroups(String keyword, int joinStatus, int offset, int count, String operationID, Promise promise) {
+    Open_im_sdk.searchPublicGroups(new BaseImpl(promise), operationID, keyword, joinStatus, offset, count);
+  }
+
+  @ReactMethod
   public void getGroupMemberListByJoinTimeFilter(ReadableMap options, String operationID, Promise promise) {
     Open_im_sdk.getGroupMemberListByJoinTimeFilter(new BaseImpl(promise), operationID, options.getString("groupID"),
       options.getInt("offset"), options.getInt("count"), options.getInt("joinTimeBegin"),
