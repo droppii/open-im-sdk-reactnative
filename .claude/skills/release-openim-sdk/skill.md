@@ -31,7 +31,14 @@ Ask the user:
 
 Store the answer as `SOURCE_TAG`.
 
-Fetch tags from remote, then read the last built tag from the tracking file:
+Pull latest main branch of `open-im-sdk-reactnative` trước để đảm bảo `.last-core-tag` và các bridge files là mới nhất:
+
+```bash
+cd "$RN_DIR"
+git pull origin main
+```
+
+Sau đó fetch tags từ `openimsdk-core` và đọc last built tag:
 
 ```bash
 cd "$CORE_DIR"
