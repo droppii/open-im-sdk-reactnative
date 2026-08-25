@@ -163,10 +163,29 @@ These need the corresponding TypeScript type in `src/types/entity.ts` or `src/ty
 **E) Changed/removed items** — `-` lines showing removals or renames
 - Flag these to the user as potentially breaking changes
 
-**F) New message type constants** — new `Xxx = NNN` in any `constant.go` file, values in the 100–200 range
-- `pkg/constant/constant.go` — upstream SDK constants (e.g., `StickerMessage = 162`)
-- `protocol/constant/constant.go` — Droppii-specific constants (e.g., `MarkdownText = 118`, `ReactionMessageModifier = 121`)
+**F) New message type constants** — new `Xxx = NNN` in any `constant.go` file, **any numeric contentType constant, not limited to a fixed range** — this includes actual message content types (e.g. `StickerMessage = 162`, `MarkdownText = 118`, `ReactionMessageModifier = 121`) AND notification content types (e.g. `GroupCreatedNotification = 1501`, `FriendDeletedNotification = 1205`) — `MessageType` in `src/types/enum.ts` already spans both:
+- `pkg/constant/constant.go` — upstream SDK constants
+- `protocol/constant/constant.go` — Droppii-specific constants
 - New values in either file need a new entry in `MessageType` enum in `src/types/enum.ts`
+
+**Do not gate this on a numeric range heuristic** — a fixed "100–200" window under-covers `MessageType` (which already holds values up to 2200+) and has historically let real additions (`MarkdownText`, `ReactionMessageModifier`, several `*Notification` constants) go unnoticed for multiple releases, since diff-based detection only catches what changed between the two tags being compared and never re-checks anything from before tracking started. Run the full-audit check below every release, not just when the diff happens to show something in-range.
+
+### Full audit — run this every release, independent of the diff
+
+The diff in this step only shows what changed **between `$PREV_TAG` and `$SOURCE_TAG`**. It cannot catch a constant that was added before `.last-core-tag` tracking began, or missed by a prior release. Close that gap with a direct set-difference between every numeric constant in the Go source and every value already in `MessageType`:
+
+```bash
+comm -23 \
+  <(grep -hoE '=[[:space:]]*[0-9]+' \
+      "$CORE_DIR/pkg/constant/constant.go" "$CORE_DIR/protocol/constant/constant.go" \
+    | grep -oE '[0-9]+' | sort -u) \
+  <(grep -oE '=[[:space:]]*[0-9]+' "$RN_DIR/src/types/enum.ts" | grep -oE '[0-9]+' | sort -u) \
+  | sort -n
+```
+
+**Important:** sort each side with plain `sort -u` (lexicographic), never `sort -un` (numeric) — `comm` compares lines byte-for-byte and requires both inputs in the same collation order; numeric sort ("2" before "10") diverges from lexicographic order ("10" before "2") and silently desyncs `comm`, producing false "missing" hits for values that already exist on both sides. Only pipe the final result through `sort -n` for human-readable output.
+
+This lists every numeric constant value that exists in the Go source but has no matching value anywhere in `enum.ts`. Expect noise — protocol opcodes (`GetNewestSeq`, `PushMsg`, `MsgSyncBegin`, and similar `ReqIdentifier`-style constants), internal `Cmd2Value`/`Action` codes (e.g. `ConChange = 6`), size/limit constants (e.g. `MaxSyncPullNumber = 500`), section range markers (`*NotificationBegin`/`*NotificationEnd`), and even commented-out constants (the grep does not strip `//` comments) all share the same numeric space but are not message content types. For each remaining candidate, look up its name in the Go source and judge whether it is genuinely a `MsgData.ContentType`/notification content type (same judgment already applied to the diff output above) before adding it to `MessageType`.
 
 ---
 
