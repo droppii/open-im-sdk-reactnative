@@ -118,7 +118,7 @@ FOUNDATION_EXPORT BOOL Open_im_sdkCheckResourceLoad(Open_im_sdkLoginMgr* _Nullab
 
 FOUNDATION_EXPORT void Open_im_sdkClearConversationAndDeleteAllMsg(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable conversationID);
 
-FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateAdvancedQuoteMessage(NSString* _Nullable operationID, NSString* _Nullable text, NSString* _Nullable message, NSString* _Nullable messageEntityList);
+FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateAdvancedQuoteMessage(NSString* _Nullable operationID, NSString* _Nullable text, NSString* _Nullable message, NSString* _Nullable messageEntityList, NSString* _Nullable urls);
 
 FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateAdvancedTextMessage(NSString* _Nullable operationID, NSString* _Nullable text, NSString* _Nullable messageEntityList);
 
@@ -150,7 +150,7 @@ FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateLogMessage(NSString* _Null
 
 FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateMergerMessage(NSString* _Nullable operationID, NSString* _Nullable messageList, NSString* _Nullable title, NSString* _Nullable summaryList);
 
-FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateQuoteMessage(NSString* _Nullable operationID, NSString* _Nullable text, NSString* _Nullable message);
+FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateQuoteMessage(NSString* _Nullable operationID, NSString* _Nullable text, NSString* _Nullable message, NSString* _Nullable urls);
 
 FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateSoundMessage(NSString* _Nullable operationID, NSString* _Nullable soundPath, int64_t duration);
 
@@ -160,7 +160,7 @@ FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateSoundMessageFromFullPath(N
 
 FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateStickerMessage(NSString* _Nullable operationID, NSString* _Nullable content);
 
-FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateTextAtMessage(NSString* _Nullable operationID, NSString* _Nullable text, NSString* _Nullable atUserList, NSString* _Nullable atUsersInfo, NSString* _Nullable message);
+FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateTextAtMessage(NSString* _Nullable operationID, NSString* _Nullable text, NSString* _Nullable atUserList, NSString* _Nullable atUsersInfo, NSString* _Nullable message, NSString* _Nullable urls);
 
 FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateTextMessage(NSString* _Nullable operationID, NSString* _Nullable text);
 

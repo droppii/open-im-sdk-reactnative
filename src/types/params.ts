@@ -276,6 +276,7 @@ export type AtMsgParams = {
   atUserIDList: string[];
   atUsersInfo?: AtUsersInfoItem[];
   message?: MessageItem;
+  urls?: string[];
 };
 
 export type ImageMsgParams = {
@@ -334,6 +335,7 @@ export type LocationMsgParams = {
 export type QuoteMsgParams = {
   text: string;
   message: MessageItem;
+  urls?: string[];
 };
 
 export type CustomMsgParams = {

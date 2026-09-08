@@ -347,7 +347,10 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
     ReadableMap messageMap = options.hasKey("message") ? options.getMap("message") : null;
     String quoteMessage = messageMap != null ? map2string(messageMap) : null;
 
-    String message = Open_im_sdk.createTextAtMessage(operationID, text, atUserIDList, atUsersInfo, quoteMessage);
+    ReadableArray urlsArray = options.hasKey("urls") ? options.getArray("urls") : null;
+    String urls = urlsArray != null ? urlsArray.toString() : "[]";
+
+    String message = Open_im_sdk.createTextAtMessage(operationID, text, atUserIDList, atUsersInfo, quoteMessage, urls);
     try {
       JSONObject obj = JSON.parseObject(message);
       promise.resolve(emitter.convertJsonToMap(obj));
@@ -435,7 +438,10 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
     String text = options.getString("text");
     String quoteMessage = map2string(Objects.requireNonNull(options.getMap("message")));
 
-    String message = Open_im_sdk.createQuoteMessage(operationID, text, quoteMessage);
+    ReadableArray urlsArray = options.hasKey("urls") ? options.getArray("urls") : null;
+    String urls = urlsArray != null ? urlsArray.toString() : "[]";
+
+    String message = Open_im_sdk.createQuoteMessage(operationID, text, quoteMessage, urls);
     try {
       JSONObject obj = JSON.parseObject(message);
       promise.resolve(emitter.convertJsonToMap(obj));
@@ -450,7 +456,10 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
     String quoteMessage = map2string(Objects.requireNonNull(options.getMap("message")));
     String messageEntityList = Objects.requireNonNull(options.getArray("messageEntityList")).toString();
 
-    String message = Open_im_sdk.createAdvancedQuoteMessage(operationID, text, quoteMessage, messageEntityList);
+    ReadableArray urlsArray = options.hasKey("urls") ? options.getArray("urls") : null;
+    String urls = urlsArray != null ? urlsArray.toString() : "[]";
+
+    String message = Open_im_sdk.createAdvancedQuoteMessage(operationID, text, quoteMessage, messageEntityList, urls);
     try {
       JSONObject obj = JSON.parseObject(message);
       promise.resolve(emitter.convertJsonToMap(obj));

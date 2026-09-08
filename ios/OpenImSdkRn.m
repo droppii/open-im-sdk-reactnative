@@ -443,7 +443,9 @@ RCT_EXPORT_METHOD(createTextAtMessage:(NSDictionary *)options operationID:(NSStr
         atUserIDList = [NSArray array];
     }
     
-    NSString *result = Open_im_sdkCreateTextAtMessage(operationID, text, [atUserIDList json], [atUsersInfo json], messageJson);
+    NSArray *urls = options[@"urls"];
+    NSString *urlsJson = urls ? [urls json] : @"[]";
+    NSString *result = Open_im_sdkCreateTextAtMessage(operationID, text, [atUserIDList json], [atUsersInfo json], messageJson, urlsJson);
     NSDictionary *messageObj = [self parseJsonStr2Dict:result];
     if (messageObj) {
         resolver(messageObj);
@@ -517,7 +519,9 @@ RCT_EXPORT_METHOD(createCustomMessage:(NSDictionary *)options operationID:(NSStr
 }
 
 RCT_EXPORT_METHOD(createQuoteMessage:(NSDictionary *)options operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
-    NSString *result = Open_im_sdkCreateQuoteMessage(operationID,options[@"text"], [options[@"message"] json]);
+    NSArray *urls = options[@"urls"];
+    NSString *urlsJson = urls ? [urls json] : @"[]";
+    NSString *result = Open_im_sdkCreateQuoteMessage(operationID, options[@"text"], [options[@"message"] json], urlsJson);
     NSDictionary *message = [self parseJsonStr2Dict:result];
     if (message) {
         resolver(message);
@@ -530,7 +534,9 @@ RCT_EXPORT_METHOD(createAdvancedQuoteMessage:(NSDictionary *)options operationID
     NSString *text = options[@"text"];
     NSDictionary *quoteMessage = options[@"message"];
     NSArray *messageEntityList = options[@"messageEntityList"];
-    NSString *result = Open_im_sdkCreateAdvancedQuoteMessage(operationID, text, [quoteMessage json], [messageEntityList json]);
+    NSArray *urls = options[@"urls"];
+    NSString *urlsJson = urls ? [urls json] : @"[]";
+    NSString *result = Open_im_sdkCreateAdvancedQuoteMessage(operationID, text, [quoteMessage json], [messageEntityList json], urlsJson);
     NSDictionary *message = [self parseJsonStr2Dict:result];
     if (message) {
         resolver(message);
