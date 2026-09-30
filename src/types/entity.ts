@@ -181,6 +181,7 @@ export type ConversationItem = {
   isNotInGroup: boolean;
   isPrivateChat: boolean;
   isMsgDestruct: boolean;
+  lastOpenTime?: number;
   attachedInfo: string;
   ex?: string;
   peerType?: PeerType;
@@ -452,6 +453,10 @@ export type AdvancedGetMessageResult = {
   errCode: number;
   errMsg: string;
   messageList: MessageItem[];
+};
+
+export type GetFirstUnreadMessageResult = {
+  message: MessageItem | null;
 };
 
 export type RtcInvite = {

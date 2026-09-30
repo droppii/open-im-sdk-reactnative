@@ -813,6 +813,11 @@ RCT_EXPORT_METHOD(getAdvancedHistoryMessageListReverse:(NSDictionary *)options o
     Open_im_sdkGetAdvancedHistoryMessageListReverse(proxy, operationID, optionsJson);
 }
 
+RCT_EXPORT_METHOD(getFirstUnreadMessage:(NSString *)conversationID operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+    RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
+    Open_im_sdkGetFirstUnreadMessage(proxy, operationID, conversationID);
+}
+
 RCT_EXPORT_METHOD(getAdvancedHistoryMessageListApp:(NSDictionary *)findOptions operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
     NSString *findOptionsJson = [findOptions json];

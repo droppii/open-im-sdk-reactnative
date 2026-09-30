@@ -11,6 +11,7 @@ import {
   GroupMemberItem,
   ConversationItem,
   AdvancedGetMessageResult,
+  GetFirstUnreadMessageResult,
   CardElem,
   MessageItem,
   SearchMessageResult,
@@ -518,6 +519,10 @@ export interface NativeOpenIMSDKInterface {
     params: GetAdvancedHistoryMsgAppParams,
     operationID: string
   ) => Promise<AdvancedGetMessageResult>;
+  getFirstUnreadMessage: (
+    conversationID: string,
+    operationID: string
+  ) => Promise<GetFirstUnreadMessageResult>;
   findMessageList: (
     params: FindMessageParams[],
     operationID: string

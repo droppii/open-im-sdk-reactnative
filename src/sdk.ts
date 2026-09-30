@@ -650,6 +650,10 @@ class OpenIMSDK extends Emitter {
     ]);
   }
 
+  getFirstUnreadMessage(conversationID: string, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.getFirstUnreadMessage, [conversationID, operationID]);
+  }
+
   findMessageList(params: FindMessageParams[], operationID: string = id()) {
     return this.invoke(NativeOpenIMSDK.findMessageList, [params, operationID]);
   }

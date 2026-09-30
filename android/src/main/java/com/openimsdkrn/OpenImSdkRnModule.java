@@ -724,6 +724,11 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void getFirstUnreadMessage(String conversationID, String operationID, Promise promise) {
+    Open_im_sdk.getFirstUnreadMessage(new BaseImpl(promise), operationID, conversationID);
+  }
+
+  @ReactMethod
   public void revokeMessage(ReadableMap options, String operationID, Promise promise) {
     Open_im_sdk.revokeMessage(new BaseImpl(promise), operationID, options.getString("conversationID"),
       options.getString("clientMsgID"));

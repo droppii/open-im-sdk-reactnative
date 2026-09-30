@@ -218,6 +218,8 @@ FOUNDATION_EXPORT void Open_im_sdkGetConversationListSplit(id<Open_im_sdk_callba
 
 FOUNDATION_EXPORT void Open_im_sdkGetConversationListSplitApp(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, long offset, long count, NSString* _Nullable applicationType, NSString* _Nullable chatCategory);
 
+FOUNDATION_EXPORT void Open_im_sdkGetFirstUnreadMessage(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable conversationID);
+
 FOUNDATION_EXPORT void Open_im_sdkGetFriendApplicationListAsApplicant(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable req);
 
 FOUNDATION_EXPORT void Open_im_sdkGetFriendApplicationListAsRecipient(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable req);
@@ -368,6 +370,14 @@ FOUNDATION_EXPORT void Open_im_sdkSetConversationDraft(id<Open_im_sdk_callbackBa
 FOUNDATION_EXPORT void Open_im_sdkSetConversationListener(id<Open_im_sdk_callbackOnConversationListener> _Nullable listener);
 
 FOUNDATION_EXPORT void Open_im_sdkSetCustomBusinessListener(id<Open_im_sdk_callbackOnCustomBusinessListener> _Nullable listener);
+
+/**
+ * SetDebugHTTPProxy routes the SDK's HTTP and WebSocket traffic through a debug proxy
+(e.g. Proxyman, Charles) so it can be inspected. Must be called before InitSDK: Go
+caches the proxy config from the environment on first use, so setting it afterwards
+has no effect. Pass an empty string to clear it.
+ */
+FOUNDATION_EXPORT void Open_im_sdkSetDebugHTTPProxy(NSString* _Nullable proxyURL);
 
 FOUNDATION_EXPORT void Open_im_sdkSetFriendListener(id<Open_im_sdk_callbackOnFriendshipListener> _Nullable listener);
 
