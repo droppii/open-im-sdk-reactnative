@@ -192,6 +192,7 @@ const sdk = OpenIMSDK.getInstance();
 | `getMultipleConversation(conversationIDList, operationID?)` | `string[]` | `Promise<ConversationItem[]>` |
 | `getConversationIDBySessionType(params, operationID?)` | [`GetOneConversationParams`](#getoneconversationparams) | `Promise<string>` |
 | `getTotalUnreadMsgCount(operationID?)` | — | `Promise<number>` |
+| `getFirstUnreadMessage(conversationID, operationID?)` | `string` | `Promise<GetFirstUnreadMessageResult>` |
 | `markConversationMessageAsRead(conversationID, operationID?)` | `string` | `Promise<void>` |
 | `markAllConversationMessageAsRead(operationID?)` | — | `Promise<void>` |
 | `pinMsg(conversationID, clientMsgID, operationID?)` | `string, string` | `Promise<void>` |
@@ -439,6 +440,7 @@ See `src/types/enum.ts` for all 22 enums.
   unreadCount: number;
   lastMessage?: MessageItem;
   lastMsgSendTime: number;
+  lastOpenTime?: number;   // timestamp when conversation was last opened
   draftText: string;
   draftTextTime: number;
   isPinned: boolean;
@@ -446,6 +448,13 @@ See `src/types/enum.ts` for all 22 enums.
   burnDuration: number;    // seconds until auto-delete (0 = off)
   isNotInGroup: boolean;
   ex: string;
+}
+```
+
+**GetFirstUnreadMessageResult** — Result from `getFirstUnreadMessage()`
+```typescript
+{
+  message: MessageItem | null;  // First unread message in conversation, or null if none
 }
 ```
 

@@ -31,18 +31,18 @@ Example: `v1.0.0-rc30`
 
 ## Current Release Status
 
-### Latest Release: **v1.0.0-rc30** (2026-08-21)
+### Latest Release: **v1.0.0-rc42** (2026-09-30)
 
 | Component | Version | Status |
 |-----------|---------|--------|
-| OpenIM Core (Go) | 0.0.1-rc23 | Current |
-| React Native Bridge | v1.0.0-rc30 | Stable |
+| OpenIM Core (Go) | 0.0.1-rc35 | Current |
+| React Native Bridge | v1.0.0-rc42 | Stable |
 | TypeScript Types | Synced | ✅ |
 | Android Bridge | Synced | ✅ |
 | iOS Bridge | Synced | ✅ |
 | Documentation | Complete | ✅ |
 | npm Package | Published | ✅ |
-| Expo Support | v1.0.0-rc30+ | ✅ |
+| Expo Support | v1.0.0-rc42+ | ✅ |
 
 ---
 
@@ -179,7 +179,7 @@ Minimal external dependencies; primary dependencies:
 | Date | Milestone | Status |
 |------|-----------|--------|
 | 2026-08-21 | v1.0.0-rc30 released with complete docs | ✅ Completed |
-| 2026-09-30 | Upstream follow-up (v0.0.1-rc24 or later) | Pending |
+| 2026-09-30 | v1.0.0-rc42 released, synced to openimsdk-core 0.0.1-rc35 | ✅ Completed |
 | 2026-10-31 | Additional integration guides & tutorials | Backlog |
 | 2027-Q1 | v1.1.0 (stable release if no breaking changes) | Planned |
 
