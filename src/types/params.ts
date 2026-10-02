@@ -229,6 +229,12 @@ export type UpdateMemberInfoParams = {
   ex?: string;
 };
 
+export type SetGroupRolePermissionsParams = {
+  groupID: string;
+  enablePermissions: string[];
+  disablePermissions: string[];
+};
+
 export type GetGroupMemberByTimeParams = {
   groupID: string;
   filterUserIDList: string[];

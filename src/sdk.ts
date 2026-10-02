@@ -67,6 +67,7 @@ import {
   TypingUpdateParams,
   UpdateFriendsParams,
   UpdateMemberInfoParams,
+  SetGroupRolePermissionsParams,
   UploadFileParams,
   UploadLogsParams,
   VideoMsgByPathParams,
@@ -349,6 +350,14 @@ class OpenIMSDK extends Emitter {
 
   setGroupMemberInfo(params: UpdateMemberInfoParams, operationID: string = id()) {
     return this.invoke(NativeOpenIMSDK.setGroupMemberInfo, [params, operationID]);
+  }
+
+  setGroupAdminPermissions(params: SetGroupRolePermissionsParams, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.setGroupAdminPermissions, [params, operationID]);
+  }
+
+  setGroupMemberPermissions(params: SetGroupRolePermissionsParams, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.setGroupMemberPermissions, [params, operationID]);
   }
 
   getGroupMemberOwnerAndAdmin(groupID: string, operationID: string = id()) {

@@ -86,6 +86,7 @@ import {
   TypingUpdateParams,
   UpdateFriendsParams,
   UpdateMemberInfoParams,
+  SetGroupRolePermissionsParams,
   UploadFileParams,
   UploadLogsParams,
   VideoMsgByPathParams,
@@ -282,6 +283,14 @@ export interface NativeOpenIMSDKInterface {
   ) => Promise<GroupMemberItem[]>;
   setGroupMemberInfo: (
     params: UpdateMemberInfoParams,
+    operationID: string
+  ) => Promise<unknown>;
+  setGroupAdminPermissions: (
+    params: SetGroupRolePermissionsParams,
+    operationID: string
+  ) => Promise<unknown>;
+  setGroupMemberPermissions: (
+    params: SetGroupRolePermissionsParams,
     operationID: string
   ) => Promise<unknown>;
   getGroupMemberOwnerAndAdmin: (

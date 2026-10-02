@@ -980,6 +980,16 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void setGroupAdminPermissions(ReadableMap options, String operationID, Promise promise) {
+    Open_im_sdk.setGroupAdminPermissions(new BaseImpl(promise), operationID, map2string(options));
+  }
+
+  @ReactMethod
+  public void setGroupMemberPermissions(ReadableMap options, String operationID, Promise promise) {
+    Open_im_sdk.setGroupMemberPermissions(new BaseImpl(promise), operationID, map2string(options));
+  }
+
+  @ReactMethod
   public void getJoinedGroupList(String operationID, Promise promise) {
     Open_im_sdk.getJoinedGroupList(new BaseImpl(promise), operationID);
   }

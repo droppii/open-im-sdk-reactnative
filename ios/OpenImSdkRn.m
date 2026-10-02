@@ -1125,6 +1125,16 @@ RCT_EXPORT_METHOD(setGroupMemberInfo:(NSDictionary *)options operationID:(NSStri
     Open_im_sdkSetGroupMemberInfo(proxy, operationID, [options json]);
 }
 
+RCT_EXPORT_METHOD(setGroupAdminPermissions:(NSDictionary *)options operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+    RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
+    Open_im_sdkSetGroupAdminPermissions(proxy, operationID, [options json]);
+}
+
+RCT_EXPORT_METHOD(setGroupMemberPermissions:(NSDictionary *)options operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+    RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
+    Open_im_sdkSetGroupMemberPermissions(proxy, operationID, [options json]);
+}
+
 RCT_EXPORT_METHOD(getJoinedGroupList:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
     Open_im_sdkGetJoinedGroupList(proxy, operationID);
