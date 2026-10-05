@@ -321,9 +321,41 @@ If the struct is brand new, add the complete type definition.
 
 ---
 
-## Step 10 — Summary report
+## Step 10 — Update changelog
 
-After all edits, print a report:
+Before printing the summary, prepend a new entry to `$RN_DIR/docs/project-changelog.md`.
+
+Read the file first, then insert the new entry at the top (after the header lines), using the Edit tool.
+
+### Entry format
+
+```markdown
+## v<NEW_SDK_VERSION> — openimsdk-core <SOURCE_TAG> — <YYYY-MM-DD>
+
+**<one-line summary: "New API. Bridge updated." or "Internal fixes only. No bridge API changes.">**
+
+### Added (omit section if empty)
+- `functionName(params)` → `ReturnType` — brief description
+
+### Changed (omit section if empty)
+- `TypeName.fieldName` — brief description
+
+### Breaking changes (omit section if empty)
+- description
+
+---
+```
+
+- `NEW_SDK_VERSION` = the bumped version from `package.json` after the version bump
+- `YYYY-MM-DD` = today's date
+- Omit any section (`### Added`, `### Changed`, `### Breaking changes`) that has no entries
+- If no bridge changes, write only the one-line summary, no sections
+
+---
+
+## Step 11 — Summary report
+
+After updating the changelog, print a report:
 
 ```
 === Bridge Update Summary ===
