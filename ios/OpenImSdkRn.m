@@ -166,6 +166,7 @@ RCT_EXPORT_METHOD(initSDK:(NSDictionary *)config operationID:(NSString *)operati
     Open_im_sdkSetGroupListener(self);
     Open_im_sdkSetAdvancedMsgListener(self);
     Open_im_sdkSetBatchMsgListener(self);
+    Open_im_sdkSetCustomBusinessListener(self);
     if (flag) {
         resolve(@"init success");
     }else{
