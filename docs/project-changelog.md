@@ -6,6 +6,14 @@ Format: `v<SDK_VERSION>` — `openimsdk-core <CORE_TAG>` — `<DATE>`
 
 ---
 
+## v1.0.0-rc49 — openimsdk-core 0.0.1-rc40 — 2026-10-07
+
+**Internal fixes only. No bridge API changes.**
+
+- `GetFirstUnreadMessage` idle timeout now configurable from server (`unreadIndicatorIdleSeconds`) instead of hardcoded 5 days
+
+---
+
 ## v1.0.0-rc45 — openimsdk-core 0.0.1-rc38 — 2026-10-05
 
 **Internal fixes only. No bridge API changes.**
