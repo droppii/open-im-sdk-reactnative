@@ -33,6 +33,8 @@
 @class Open_im_sdk_callbackOnListenerForService;
 @protocol Open_im_sdk_callbackOnMessageKvInfoListener;
 @class Open_im_sdk_callbackOnMessageKvInfoListener;
+@protocol Open_im_sdk_callbackOnNetworkLogListener;
+@class Open_im_sdk_callbackOnNetworkLogListener;
 @protocol Open_im_sdk_callbackOnSignalingListener;
 @class Open_im_sdk_callbackOnSignalingListener;
 @protocol Open_im_sdk_callbackOnUserListener;
@@ -162,6 +164,10 @@
 - (void)onMessageKvInfoChanged:(NSString* _Nullable)messageChangedList;
 @end
 
+@protocol Open_im_sdk_callbackOnNetworkLogListener <NSObject>
+- (void)onNetworkLog:(NSString* _Nullable)logJSON;
+@end
+
 @protocol Open_im_sdk_callbackOnSignalingListener <NSObject>
 - (void)onHangUp:(NSString* _Nullable)hangUpCallback;
 - (void)onInvitationCancelled:(NSString* _Nullable)invitationCancelledCallback;
@@ -252,6 +258,8 @@
 @class Open_im_sdk_callbackOnListenerForService;
 
 @class Open_im_sdk_callbackOnMessageKvInfoListener;
+
+@class Open_im_sdk_callbackOnNetworkLogListener;
 
 @class Open_im_sdk_callbackOnSignalingListener;
 
@@ -423,6 +431,18 @@
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
 - (void)onMessageKvInfoChanged:(NSString* _Nullable)messageChangedList;
+@end
+
+/**
+ * OnNetworkLogListener receives a JSON-encoded NetLogEntry for every HTTP
+API call and long-connection (WS) request the SDK makes, for debug tooling (e.g. forwarding to Reactotron).
+ */
+@interface Open_im_sdk_callbackOnNetworkLogListener : NSObject <goSeqRefInterface, Open_im_sdk_callbackOnNetworkLogListener> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (void)onNetworkLog:(NSString* _Nullable)logJSON;
 @end
 
 @interface Open_im_sdk_callbackOnSignalingListener : NSObject <goSeqRefInterface, Open_im_sdk_callbackOnSignalingListener> {

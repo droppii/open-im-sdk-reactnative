@@ -91,6 +91,8 @@ export type EventCallbackArgsMap = {
   [OpenIMEvent.UploadComplete]: [payload: { data: { fileSize: number; streamSize: number; storageSize: number; operationID: string } }];
   [OpenIMEvent.OnRecvCustomBusinessMessage]: [data: any]; // FIXME: Type is unknown.
   [OpenIMEvent.UploadOnProgress]: [payload: { current: number; size: number, operationID: string }];
+  // JSON-encoded NetworkLogEntry; debug-only, emitted when InitOptions.networkLogEnabled is true.
+  [OpenIMEvent.OnNetworkLog]: [logJSON: string];
 };
 
 export type ArgsOfEvent<E extends OpenIMEventName> = E extends keyof EventCallbackArgsMap

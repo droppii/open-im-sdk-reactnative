@@ -388,6 +388,22 @@ FOUNDATION_EXPORT void Open_im_sdkSetMessageKvInfoListener(id<Open_im_sdk_callba
 FOUNDATION_EXPORT void Open_im_sdkSetMessageLocalEx(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable conversationID, NSString* _Nullable clientMsgID, NSString* _Nullable localEx);
 
 /**
+ * SetNetworkLogEnabled turns network log forwarding on or off. Off by
+default: this is the explicit Go-side gate, independent of whether a
+listener is registered, so network logging cannot turn itself on from
+the native side alone.
+ */
+FOUNDATION_EXPORT void Open_im_sdkSetNetworkLogEnabled(BOOL enabled);
+
+/**
+ * SetNetworkLogListener registers a debug sink for the SDK's HTTP and WS
+request traffic (e.g. to forward into Reactotron). Unlike the other listeners
+above, this is not tied to a logged-in session: it can be set before
+InitSDK and keeps working across logout/login.
+ */
+FOUNDATION_EXPORT void Open_im_sdkSetNetworkLogListener(id<Open_im_sdk_callbackOnNetworkLogListener> _Nullable listener);
+
+/**
  * SetSelfInfo sets the user's own information.
  */
 FOUNDATION_EXPORT void Open_im_sdkSetSelfInfo(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable userInfo);

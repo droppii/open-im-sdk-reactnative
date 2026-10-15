@@ -72,6 +72,9 @@ import {
   UploadLogsParams,
   VideoMsgByPathParams,
   VideoMsgParams,
+  AdvancedMsgParams,
+  AdvancedQuoteMsgParams,
+  MarkMsgsAsReadParams,
 } from './types/params';
 import id from './utils/id';
 
@@ -176,7 +179,15 @@ class OpenIMSDK extends Emitter {
   }
 
   networkStatusChanged(operationID: string = id()) {
-    return this.invoke(NativeOpenIMSDK.networkStatusChanged, [operationID]);
+    return this.invoke(NativeOpenIMSDK.networkStatusChange, [operationID]);
+  }
+
+  getUserStatus(userIDList: string[], operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.getUserStatus, [userIDList, operationID]);
+  }
+
+  getSdkVersion(operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.getSdkVersion, [operationID]);
   }
 
   /**
@@ -438,6 +449,10 @@ class OpenIMSDK extends Emitter {
     return this.invoke(NativeOpenIMSDK.getTotalUnreadMsgCount, [operationID]);
   }
 
+  markMessagesAsReadByMsgID(params: MarkMsgsAsReadParams, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.markMessagesAsReadByMsgID, [params, operationID]);
+  }
+
   markConversationMessageAsRead(conversationID: string, operationID: string = id()) {
     return this.invoke(NativeOpenIMSDK.markConversationMessageAsRead, [conversationID, operationID]);
   }
@@ -500,8 +515,19 @@ class OpenIMSDK extends Emitter {
     return this.invoke(NativeOpenIMSDK.hideConversation, [conversationID, operationID]);
   }
 
+  hideAllConversations(operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.hideAllConversations, [operationID]);
+  }
+
+  /**
+   * @deprecated Use hideAllConversations instead.
+   */
   hideAllConversation(operationID: string = id()) {
-    return this.invoke(NativeOpenIMSDK.hideAllConversation, [operationID]);
+    return this.hideAllConversations(operationID);
+  }
+
+  searchConversation(keyword: string, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.searchConversation, [keyword, operationID]);
   }
 
   clearConversationAndDeleteAllMsg(conversationID: string, operationID: string = id()) {
@@ -538,6 +564,18 @@ class OpenIMSDK extends Emitter {
 
   createTextAtMessage(params: AtMsgParams, operationID: string = id()) {
     return this.invoke(NativeOpenIMSDK.createTextAtMessage, [params, operationID]);
+  }
+
+  getAtAllTag(operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.getAtAllTag, [operationID]);
+  }
+
+  createAdvancedTextMessage(params: AdvancedMsgParams, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.createAdvancedTextMessage, [params, operationID]);
+  }
+
+  createAdvancedQuoteMessage(params: AdvancedQuoteMsgParams, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.createAdvancedQuoteMessage, [params, operationID]);
   }
 
   createImageMessageByURL(params: ImageMsgParams, operationID: string = id()) {

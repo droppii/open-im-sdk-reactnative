@@ -56,6 +56,7 @@ export const OpenIMEvent = {
   UploadComplete: 'uploadComplete',
   OnRecvCustomBusinessMessage: 'onRecvCustomBusinessMessage',
   UploadOnProgress: 'uploadOnProgress',
+  OnNetworkLog: 'onNetworkLog',
   // OnReceiveNewMessages: 'onReceiveNewMessages', // iOS only
   // OnReceiveOfflineNewMessages: 'onReceiveOfflineNewMessages', // iOS only
 } as const;

@@ -110,6 +110,7 @@ RCT_EXPORT_MODULE()
   @"onReceiveNewMessages",
   @"onReceiveOfflineNewMessages",
   @"onRecvCustomBusinessMessage",
+  @"onNetworkLog",
   @"uploadOnProgress"
   ];
 }
@@ -159,6 +160,12 @@ RCT_EXPORT_METHOD(initSDK:(NSDictionary *)config operationID:(NSString *)operati
     NSMutableDictionary *newConfig = [config mutableCopy];
     [newConfig setObject:@1 forKey:@"platformID"];
   
+#if DEBUG
+    // Debug app builds only: in release there is no listener, so request
+    // bodies never leave the core even if networkLogEnabled is passed true.
+    // Set before InitSDK so requests made during init are captured too.
+    Open_im_sdkSetNetworkLogListener(self);
+#endif
     BOOL flag = Open_im_sdkInitSDK(self,operationID,[newConfig json]);
     Open_im_sdkSetUserListener(self);
     Open_im_sdkSetConversationListener(self);
@@ -1000,6 +1007,11 @@ RCT_EXPORT_METHOD(setFriendRemark:(NSDictionary *)options operationID:(NSString 
     Open_im_sdkUpdateFriends(proxy, operationID, [param json]);
 }
 
+RCT_EXPORT_METHOD(updateFriends:(NSDictionary *)options operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+    RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
+    Open_im_sdkUpdateFriends(proxy, operationID, [options json]);
+}
+
 RCT_EXPORT_METHOD(deleteFriend:(NSString *)friendUserID operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
     Open_im_sdkDeleteFriend(proxy, operationID, friendUserID);
@@ -1642,5 +1654,9 @@ RCT_EXPORT_METHOD(uploadFile:(NSDictionary *)reqData operationID:(NSString *)ope
 
 - (void)onRecvCustomBusinessMessage:(NSString* _Nullable)receiveCustomBusinessMessage{
     [self pushEvent:@"onRecvCustomBusinessMessage" data:receiveCustomBusinessMessage];
+}
+
+- (void)onNetworkLog:(NSString* _Nullable)logJSON {
+    [self pushEvent:@"onNetworkLog" data:logJSON];
 }
 @end

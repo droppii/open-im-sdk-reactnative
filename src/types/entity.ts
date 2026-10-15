@@ -513,3 +513,19 @@ export type SearchPublicGroupsResult = {
   total: number;
   groups: SearchPublicGroupInfo[];
 };
+
+/** Payload of OpenIMEvent.OnNetworkLog, after JSON.parse. */
+export type NetworkLogEntry = {
+  /** "POST" for HTTP, "WS" for long-connection requests. */
+  method: string;
+  url: string;
+  operationID?: string;
+  reqBody?: string;
+  respBody?: string;
+  /** HTTP status; 0 for WS requests or when no response was received. */
+  statusCode: number;
+  error?: string;
+  durationMs: number;
+  /** Set when a body was cut to the core's size limit. */
+  truncated?: boolean;
+};

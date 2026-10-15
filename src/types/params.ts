@@ -1,4 +1,5 @@
 import type {
+  MessageEntity,
   AtUsersInfoItem,
   GroupItem,
   MessageItem,
@@ -25,6 +26,13 @@ export type InitOptions = {
   logFilePath: string;
   logLevel: LogLevel;
   isLogStandardOutput: boolean;
+  /**
+   * Debug only: emit OpenIMEvent.OnNetworkLog for every HTTP/WS request the
+   * native core makes. Pass `__DEV__`. The bridge only registers the listener
+   * in debug (iOS) / debuggable (Android) app builds, so release apps never
+   * receive it either way.
+   */
+  networkLogEnabled?: boolean;
 };
 
 export type LoginParams = {
@@ -102,11 +110,12 @@ export declare type GetSpecifiedFriendsParams = {
   filterBlack?: boolean;
 };
 
+// Omit a field to leave it unchanged; pass a value (including '') to set it.
 export type UpdateFriendsParams = {
   friendUserIDs: string[];
   isPinned?: boolean;
-  remark?: boolean;
-  ex?: boolean;
+  remark?: string;
+  ex?: string;
 };
 
 export type AccessFriendParams = {
@@ -336,6 +345,21 @@ export type LocationMsgParams = {
   description: string;
   longitude: number;
   latitude: number;
+};
+
+export type AdvancedMsgParams = {
+  text: string;
+  messageEntityList: MessageEntity[];
+};
+
+export type AdvancedQuoteMsgParams = AdvancedMsgParams & {
+  message: MessageItem;
+  urls?: string[];
+};
+
+export type MarkMsgsAsReadParams = {
+  conversationID: string;
+  clientMsgIDList: string[];
 };
 
 export type QuoteMsgParams = {

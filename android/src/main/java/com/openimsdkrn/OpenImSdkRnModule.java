@@ -1,6 +1,7 @@
 
 package com.openimsdkrn;
 
+import android.content.pm.ApplicationInfo;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -23,6 +24,7 @@ import com.openimsdkrn.listener.UserListener;
 import com.openimsdkrn.listener.UploadFileCallbackListener;
 import com.openimsdkrn.listener.BatchMsgListener;
 import com.openimsdkrn.listener.SetCustomBusinessListener;
+import com.openimsdkrn.listener.NetworkLogListener;
 import com.openimsdkrn.utils.Emitter;
 
 import java.util.ArrayList;
@@ -71,6 +73,12 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
 
     config.putInt("platformID", 2);
 
+    // Debuggable app builds only: in release there is no listener, so request
+    // bodies never leave the core even if networkLogEnabled is passed true.
+    // Set before initSDK so requests made during init are captured too.
+    if ((reactContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
+      Open_im_sdk.setNetworkLogListener(new NetworkLogListener(reactContext));
+    }
     boolean initialized = Open_im_sdk.initSDK(new InitSDKListener(reactContext), operationID, map2string(config));
     setUserListener();
     setConversationListener();
@@ -762,6 +770,13 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void markMessagesAsReadByMsgID(ReadableMap options, String operationID, Promise promise) {
+    String conversationID = options.getString("conversationID");
+    String clientMsgIDList = Objects.requireNonNull(options.getArray("clientMsgIDList")).toString();
+    Open_im_sdk.markMessagesAsReadByMsgID(new BaseImpl(promise), operationID, conversationID, clientMsgIDList);
+  }
+
+  @ReactMethod
   public void markConversationMessageAsRead(String conversationID, String operationID, Promise promise) {
     Open_im_sdk.markConversationMessageAsRead(new BaseImpl(promise), operationID, conversationID);
   }
@@ -871,6 +886,7 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
     Open_im_sdk.addFriend(new BaseImpl(promise), operationID, map2string(params));
   }
 
+  @ReactMethod
   public void updateFriends(ReadableMap params, String operationID, Promise promise) {
     Open_im_sdk.updateFriends(new BaseImpl(promise), operationID, map2string(params));
   }

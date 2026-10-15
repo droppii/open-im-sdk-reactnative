@@ -91,6 +91,9 @@ import {
   UploadLogsParams,
   VideoMsgByPathParams,
   VideoMsgParams,
+  AdvancedMsgParams,
+  AdvancedQuoteMsgParams,
+  MarkMsgsAsReadParams,
 } from './types/params';
 
 const LINKING_ERROR =
@@ -154,7 +157,10 @@ export interface NativeOpenIMSDKInterface {
     isBackground: boolean,
     operationID: string
   ) => Promise<unknown>;
-  networkStatusChanged: (operationID: string) => Promise<unknown>;
+  // Native method name is networkStatusChange (no trailing "d").
+  networkStatusChange: (operationID: string) => Promise<unknown>;
+  getUserStatus: (userIDList: string[], operationID: string) => Promise<UserOnlineState[]>;
+  getSdkVersion: (operationID: string) => Promise<string>;
   /**
    * @deprecated Use setSelfInfo instead.
    */
@@ -351,6 +357,10 @@ export interface NativeOpenIMSDKInterface {
     operationID: string
   ) => Promise<string>;
   getTotalUnreadMsgCount: (operationID: string) => Promise<number>;
+  markMessagesAsReadByMsgID: (
+    params: MarkMsgsAsReadParams,
+    operationID: string
+  ) => Promise<unknown>;
   markConversationMessageAsRead: (
     conversationID: string,
     operationID: string
@@ -389,7 +399,8 @@ export interface NativeOpenIMSDKInterface {
     operationID: string
   ) => Promise<unknown>;
   hideConversation: (conversationID: string, operationID: string) => Promise<unknown>;
-  hideAllConversation: (operationID: string) => Promise<unknown>;
+  hideAllConversations: (operationID: string) => Promise<unknown>;
+  searchConversation: (keyword: string, operationID: string) => Promise<ConversationItem[]>;
   clearConversationAndDeleteAllMsg: (
     conversationID: string,
     operationID: string
@@ -428,6 +439,15 @@ export interface NativeOpenIMSDKInterface {
   createStickerMessage: (content: string, operationID: string) => Promise<MessageItem>;
   createTextAtMessage: (
     params: AtMsgParams,
+    operationID: string
+  ) => Promise<MessageItem>;
+  getAtAllTag: (operationID: string) => Promise<string>;
+  createAdvancedTextMessage: (
+    params: AdvancedMsgParams,
+    operationID: string
+  ) => Promise<MessageItem>;
+  createAdvancedQuoteMessage: (
+    params: AdvancedQuoteMsgParams,
     operationID: string
   ) => Promise<MessageItem>;
   createImageMessageByURL: (
