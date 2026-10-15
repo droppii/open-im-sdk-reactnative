@@ -9,9 +9,15 @@
   <key>MinimumOSVersion</key>
   <string>100.0</string>
   <key>CFBundleShortVersionString</key>
+<<<<<<< HEAD
   <string>0.0.1792054105</string>
   <key>CFBundleVersion</key>
   <string>0.0.1792054105</string>
+=======
+  <string>0.0.1792052511</string>
+  <key>CFBundleVersion</key>
+  <string>0.0.1792052511</string>
+>>>>>>> a005f8f (feat: build native libs from core HEAD, add pinTime, fix business event)
   <key>CFBundlePackageType</key>
   <string>FMWK</string>
 </dict>

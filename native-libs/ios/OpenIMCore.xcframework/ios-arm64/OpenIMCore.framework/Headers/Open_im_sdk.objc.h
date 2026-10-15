@@ -172,6 +172,12 @@ FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateVideoMessageByURL(NSString
 
 FOUNDATION_EXPORT NSString* _Nonnull Open_im_sdkCreateVideoMessageFromFullPath(NSString* _Nullable operationID, NSString* _Nullable videoFullPath, NSString* _Nullable videoType, int64_t duration, NSString* _Nullable snapshotFullPath);
 
+/**
+ * DebugTriggerCrash crashes the core on purpose to test reporting: recovered_panic, recovered_nil,
+recovered_export, fatal_panic or fatal_nil. The native bridges only expose it in debug builds.
+ */
+FOUNDATION_EXPORT BOOL Open_im_sdkDebugTriggerCrash(NSString* _Nullable kind);
+
 FOUNDATION_EXPORT void Open_im_sdkDeleteAllMsgFromLocal(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID);
 
 FOUNDATION_EXPORT void Open_im_sdkDeleteAllMsgFromLocalAndSvr(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID);
@@ -190,6 +196,12 @@ FOUNDATION_EXPORT void Open_im_sdkDeleteMessageFromLocalStorage(id<Open_im_sdk_c
 FOUNDATION_EXPORT void Open_im_sdkDeleteUserCommand(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, int32_t Type, NSString* _Nullable uuid);
 
 FOUNDATION_EXPORT void Open_im_sdkDismissGroup(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable groupID);
+
+/**
+ * EnableCrashReport writes Go fatal errors of this process and the step trail under crashDir, so
+they can be reported on the next launch. Call it as early as possible, before InitSDK.
+ */
+FOUNDATION_EXPORT BOOL Open_im_sdkEnableCrashReport(NSString* _Nullable crashDir);
 
 FOUNDATION_EXPORT void Open_im_sdkFindMessageList(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable findMessageOptions);
 
@@ -368,6 +380,12 @@ FOUNDATION_EXPORT void Open_im_sdkSetConversation(id<Open_im_sdk_callbackBase> _
 FOUNDATION_EXPORT void Open_im_sdkSetConversationDraft(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable conversationID, NSString* _Nullable draftText);
 
 FOUNDATION_EXPORT void Open_im_sdkSetConversationListener(id<Open_im_sdk_callbackOnConversationListener> _Nullable listener);
+
+/**
+ * SetCrashReportListener receives a JSON report for every recovered core panic and, after
+EnableCrashReport, for a Go fatal error of the previous run. It can be called before InitSDK.
+ */
+FOUNDATION_EXPORT void Open_im_sdkSetCrashReportListener(id<Open_im_sdk_callbackOnCrashReportListener> _Nullable listener);
 
 FOUNDATION_EXPORT void Open_im_sdkSetCustomBusinessListener(id<Open_im_sdk_callbackOnCustomBusinessListener> _Nullable listener);
 
