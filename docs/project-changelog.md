@@ -6,6 +6,29 @@ Format: `v<SDK_VERSION>` — `openimsdk-core <CORE_TAG>` — `<DATE>`
 
 ---
 
+## Unreleased — openimsdk-core `feat/sdk-network-log-debug` (droppii/openimsdk-core#85)
+
+**New API. Bridge updated. Fixes three methods that threw at runtime.**
+
+### Added
+- `OpenIMEvent.OnNetworkLog` → `logJSON: string` (`NetworkLogEntry`) — debug-only stream of the core's HTTP (`POST`), WS (`WS`), server push (`PUSH`) and heartbeat (`PING`) traffic, for Reactotron
+- `InitOptions.networkLogEnabled` — enables the stream at `initSDK`; pass `__DEV__`. The listener is only registered in debug (iOS) / debuggable (Android) app builds
+- `getUserStatus(userIDList)` → `UserOnlineState[]`
+- `getSdkVersion()` → `string`
+- `getAtAllTag()` → `string`
+- `searchConversation(keyword)` → `ConversationItem[]`
+- `createAdvancedTextMessage(AdvancedMsgParams)` / `createAdvancedQuoteMessage(AdvancedQuoteMsgParams)` → `MessageItem`
+- `markMessagesAsReadByMsgID(MarkMsgsAsReadParams)` (Android bridge added; iOS already existed)
+- `hideAllConversations()`
+
+### Changed
+- `networkStatusChanged()` now calls the native `networkStatusChange` — it previously rejected on every call, so the core was never told about network changes
+- `hideAllConversation()` → deprecated alias of `hideAllConversations()` (it previously called a non-existent native method)
+- `updateFriends()` now bridged on iOS and Android (`@ReactMethod` was missing on Android, iOS had no method)
+- `UpdateFriendsParams.remark` / `ex` typed `string` (were `boolean`)
+
+---
+
 ## v1.0.0-rc49 — openimsdk-core 0.0.1-rc40 — 2026-10-07
 
 **Internal fixes only. No bridge API changes.**
