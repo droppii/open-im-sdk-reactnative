@@ -6,7 +6,7 @@ Format: `v<SDK_VERSION>` — `openimsdk-core <CORE_TAG>` — `<DATE>`
 
 ---
 
-## Unreleased — openimsdk-core `feat/sdk-network-log-debug` (droppii/openimsdk-core#85)
+## v1.0.0-rc50 — openimsdk-core 0.0.1-rc42 — 2026-10-15
 
 **New API. Bridge updated. Fixes three methods that threw at runtime.**
 
@@ -20,6 +20,7 @@ Format: `v<SDK_VERSION>` — `openimsdk-core <CORE_TAG>` — `<DATE>`
 - `createAdvancedTextMessage(AdvancedMsgParams)` / `createAdvancedQuoteMessage(AdvancedQuoteMsgParams)` → `MessageItem`
 - `markMessagesAsReadByMsgID(MarkMsgsAsReadParams)` (Android bridge added; iOS already existed)
 - `hideAllConversations()`
+- `ConversationItem.pinTime` — pin timestamp (core rc41: pin thread)
 
 ### Changed
 - `networkStatusChanged()` now calls the native `networkStatusChange` — it previously rejected on every call, so the core was never told about network changes

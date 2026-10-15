@@ -178,6 +178,8 @@ export type ConversationItem = {
   burnDuration: number;
   msgDestructTime: number;
   isPinned: boolean;
+  /** Pin timestamp (ms); 0 when not pinned. */
+  pinTime?: number;
   isNotInGroup: boolean;
   isPrivateChat: boolean;
   isMsgDestruct: boolean;
