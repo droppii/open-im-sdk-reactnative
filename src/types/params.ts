@@ -368,6 +368,14 @@ export type TypingUpdateParams = {
   msgTip: string;
 };
 
+/** Ways to crash the Go core on purpose when testing crash reporting (debug builds only). */
+export type CoreCrashTriggerKind =
+  | 'recovered_panic'
+  | 'recovered_nil'
+  | 'recovered_export'
+  | 'fatal_panic'
+  | 'fatal_nil';
+
 export type ChangeInputStatesParams = {
   conversationID: string;
   focus: boolean;

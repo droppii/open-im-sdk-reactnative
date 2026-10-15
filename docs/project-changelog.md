@@ -6,6 +6,20 @@ Format: `v<SDK_VERSION>` — `openimsdk-core <CORE_TAG>` — `<DATE>`
 
 ---
 
+## v1.0.0-rc49 — openimsdk-core HEAD (post-rc40) — 2026-10-15
+
+**New `pinTime` field on ConversationItem. Bridge fixes for OnRecvCustomBusinessMessage.**
+
+### Changed
+- `ConversationItem.pinTime` (`number?`) — timestamp khi conversation được pin, dùng để sort pinned conversations theo thứ tự pin
+
+### Fixed
+- iOS: `OpenImSdkRn.h` missing `Open_im_sdk_callbackOnCustomBusinessListener` protocol conformance — `onRecvCustomBusinessMessage` event không được deliver
+- Android/iOS: `setCustomBusinessListener` chưa được đăng ký trong `initSDK`
+- Android: `SetCustomBusinessListener` crash khi payload là plain string (không phải JSON object)
+
+---
+
 ## v1.0.0-rc49 — openimsdk-core 0.0.1-rc40 — 2026-10-07
 
 **Internal fixes only. No bridge API changes.**

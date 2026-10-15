@@ -12,6 +12,7 @@ import {
   ChangeGroupMemberMuteParams,
   ChangeGroupMuteParams,
   ChangeInputStatesParams,
+  CoreCrashTriggerKind,
   CreateGroupParams,
   CustomMsgParams,
   FaceMessageParams,
@@ -689,6 +690,19 @@ class OpenIMSDK extends Emitter {
 
   unInitSDK(operationID: string = id()) {
     return this.invoke(NativeOpenIMSDK.unInitSDK, [operationID]);
+  }
+
+  /**
+   * Debug builds only: crashes the Go core on purpose to test crash reporting.
+   * recovered_* are reported right away and the app keeps running; fatal_* kill the app and are
+   * reported on the next launch.
+   */
+  debugTriggerCoreCrash(kind: CoreCrashTriggerKind) {
+    const nativeMethod = NativeOpenIMSDK.debugTriggerCoreCrash;
+    if (!nativeMethod) {
+      return Promise.reject(new OpenIMApiError(-1, 'debugTriggerCoreCrash is only available in debug builds', ''));
+    }
+    return this.invoke(nativeMethod, [kind]);
   }
 
   updateFcmToken(fcmToken: string, expireTime: number, project: string = '', operationID: string = id()) {

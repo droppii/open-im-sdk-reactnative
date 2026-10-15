@@ -32,6 +32,7 @@ import {
   ChangeGroupMemberMuteParams,
   ChangeGroupMuteParams,
   ChangeInputStatesParams,
+  CoreCrashTriggerKind,
   CreateGroupParams,
   CustomMsgParams,
   FaceMessageParams,
@@ -556,4 +557,6 @@ export interface NativeOpenIMSDKInterface {
   addUserCommand: (type: number, uuid: string, value: string, operationID: string) => Promise<unknown>;
   deleteUserCommand: (type: number, uuid: string, operationID: string) => Promise<unknown>;
   getAllUserCommands: (type: number, operationID: string) => Promise<unknown>;
+  /** Only registered in debug builds. */
+  debugTriggerCoreCrash?: (kind: CoreCrashTriggerKind) => Promise<boolean>;
 }

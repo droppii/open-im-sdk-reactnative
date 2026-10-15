@@ -1,4 +1,5 @@
 #import "OpenImSdkRn.h"
+#import "OpenIMCoreCrashReporter.h"
 #import "SendMessageCallbackProxy.h"
 #import "UploadFileCallbackProxy.h"
 #import "UploadLogCallbackProxy.h"
@@ -158,7 +159,9 @@ RCT_EXPORT_METHOD(initSDK:(NSDictionary *)config operationID:(NSString *)operati
   
     NSMutableDictionary *newConfig = [config mutableCopy];
     [newConfig setObject:@1 forKey:@"platformID"];
-  
+
+    // Core crash reporting starts with the core itself, so apps that never init OpenIM are untouched.
+    [OpenIMCoreCrashReporter install];
     BOOL flag = Open_im_sdkInitSDK(self,operationID,[newConfig json]);
     Open_im_sdkSetUserListener(self);
     Open_im_sdkSetConversationListener(self);
@@ -1371,6 +1374,13 @@ RCT_EXPORT_METHOD(logs:(NSDictionary *)options operationID:(NSString *)operation
 
     Open_im_sdkLogs(proxy, operationID, [[options valueForKey:@"logLevel"] longValue],[options valueForKey:@"file"],[[options valueForKey:@"line"] longValue],[options valueForKey:@"msgs"],[options valueForKey:@"err"],[keyAndValue json]);
 }
+
+#if DEBUG
+// Debug builds only: crashes the Go core on purpose to test crash reporting.
+RCT_EXPORT_METHOD(debugTriggerCoreCrash:(NSString *)kind resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+    resolver(@(Open_im_sdkDebugTriggerCrash(kind)));
+}
+#endif
 
 // WARN: This method is useless and will be removed in the future.
 RCT_EXPORT_METHOD(getSdkVersion:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {

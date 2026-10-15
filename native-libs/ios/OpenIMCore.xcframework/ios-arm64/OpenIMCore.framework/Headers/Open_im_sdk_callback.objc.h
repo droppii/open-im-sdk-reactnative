@@ -21,6 +21,8 @@
 @class Open_im_sdk_callbackOnConnListener;
 @protocol Open_im_sdk_callbackOnConversationListener;
 @class Open_im_sdk_callbackOnConversationListener;
+@protocol Open_im_sdk_callbackOnCrashReportListener;
+@class Open_im_sdk_callbackOnCrashReportListener;
 @protocol Open_im_sdk_callbackOnCustomBusinessListener;
 @class Open_im_sdk_callbackOnCustomBusinessListener;
 @protocol Open_im_sdk_callbackOnFriendshipListener;
@@ -82,6 +84,10 @@
 - (void)onSyncServerProgress:(long)progress;
 - (void)onSyncServerStart:(BOOL)reinstalled;
 - (void)onTotalUnreadMessageCountChanged:(int32_t)totalUnreadCount;
+@end
+
+@protocol Open_im_sdk_callbackOnCrashReportListener <NSObject>
+- (BOOL)onCrashReport:(NSString* _Nullable)report;
 @end
 
 @protocol Open_im_sdk_callbackOnCustomBusinessListener <NSObject>
@@ -241,6 +247,8 @@
 
 @class Open_im_sdk_callbackOnConversationListener;
 
+@class Open_im_sdk_callbackOnCrashReportListener;
+
 @class Open_im_sdk_callbackOnCustomBusinessListener;
 
 @class Open_im_sdk_callbackOnFriendshipListener;
@@ -321,6 +329,18 @@
 - (void)onSyncServerProgress:(long)progress;
 - (void)onSyncServerStart:(BOOL)reinstalled;
 - (void)onTotalUnreadMessageCountChanged:(int32_t)totalUnreadCount;
+@end
+
+/**
+ * OnCrashReportListener receives core panic reports as JSON and returns true once the report has
+been handed to the crash reporter. It is called on Go threads and must not throw.
+ */
+@interface Open_im_sdk_callbackOnCrashReportListener : NSObject <goSeqRefInterface, Open_im_sdk_callbackOnCrashReportListener> {
+}
+@property(strong, readonly) _Nonnull id _ref;
+
+- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
+- (BOOL)onCrashReport:(NSString* _Nullable)report;
 @end
 
 @interface Open_im_sdk_callbackOnCustomBusinessListener : NSObject <goSeqRefInterface, Open_im_sdk_callbackOnCustomBusinessListener> {

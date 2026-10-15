@@ -23,6 +23,7 @@ import com.openimsdkrn.listener.UserListener;
 import com.openimsdkrn.listener.UploadFileCallbackListener;
 import com.openimsdkrn.listener.BatchMsgListener;
 import com.openimsdkrn.listener.SetCustomBusinessListener;
+import com.openimsdkrn.crash.CoreCrashReporter;
 import com.openimsdkrn.utils.Emitter;
 
 import java.util.ArrayList;
@@ -71,6 +72,8 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
 
     config.putInt("platformID", 2);
 
+    // Core crash reporting starts with the core itself, so apps that never init OpenIM are untouched.
+    CoreCrashReporter.install(reactContext);
     boolean initialized = Open_im_sdk.initSDK(new InitSDKListener(reactContext), operationID, map2string(config));
     setUserListener();
     setConversationListener();
@@ -1245,5 +1248,15 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
   public void unInitSDK(String operationID, Promise promise) {
     Open_im_sdk.unInitSDK(operationID);
     promise.resolve(null);
+  }
+
+  // Debug builds only: crashes the Go core on purpose to test crash reporting.
+  @ReactMethod
+  public void debugTriggerCoreCrash(String kind, Promise promise) {
+    if (!CoreCrashReporter.isDebuggable(reactContext)) {
+      promise.reject("-1", "debugTriggerCoreCrash is only available in debug builds");
+      return;
+    }
+    promise.resolve(Open_im_sdk.debugTriggerCrash(kind));
   }
 }
