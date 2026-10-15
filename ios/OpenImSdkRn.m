@@ -131,6 +131,9 @@ RCT_EXPORT_MODULE()
 }
 
 - (NSDictionary *)parseJsonStr2Dict:(NSString *)jsonStr {
+    if (jsonStr.length == 0) { // nil/empty: JSONObjectWithData:nil throws
+        return nil;
+    }
     NSData *jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error = nil;
     id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
@@ -143,6 +146,9 @@ RCT_EXPORT_MODULE()
 }
 
 - (NSArray *)parseJsonStr2Array:(NSString *)jsonStr {
+    if (jsonStr.length == 0) { // nil/empty: JSONObjectWithData:nil throws
+        return nil;
+    }
     NSData *jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error = nil;
     id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
@@ -370,9 +376,8 @@ RCT_EXPORT_METHOD(resetConversationGroupAtType:(NSString *)conversationID operat
 RCT_EXPORT_METHOD(pinConversation:(NSDictionary *)options operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
   
-    NSDictionary *param = @{
-      @"isPinned":options[@"isPinned"],
-    };
+    NSMutableDictionary *param = [NSMutableDictionary dictionary]; // nil-safe: a literal throws on a missing JS field
+    param[@"isPinned"] = options[@"isPinned"];
   
     Open_im_sdkSetConversation(proxy,operationID, [options valueForKey:@"conversationID"], [param json]);
 }
@@ -380,27 +385,24 @@ RCT_EXPORT_METHOD(pinConversation:(NSDictionary *)options operationID:(NSString 
 RCT_EXPORT_METHOD(setConversationPrivateChat:(NSDictionary *)options operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
   
-    NSDictionary *param = @{
-      @"isPrivateChat":options[@"isPrivate"],
-    };
+    NSMutableDictionary *param = [NSMutableDictionary dictionary]; // nil-safe: a literal throws on a missing JS field
+    param[@"isPrivateChat"] = options[@"isPrivate"];
   Open_im_sdkSetConversation(proxy,operationID, [options valueForKey:@"conversationID"], [param json] );
 }
 
 RCT_EXPORT_METHOD(setConversationBurnDuration:(NSDictionary *)options operationID:(NSString *)operationID  resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
   
-    NSDictionary *param = @{
-      @"burnDuration":options[@"burnDuration"],
-    };
+    NSMutableDictionary *param = [NSMutableDictionary dictionary]; // nil-safe: a literal throws on a missing JS field
+    param[@"burnDuration"] = options[@"burnDuration"];
   Open_im_sdkSetConversation(proxy,operationID,[options valueForKey:@"conversationID"], [param json]);
 }
 
 RCT_EXPORT_METHOD(setConversationRecvMessageOpt:(NSDictionary *)options operationID:(NSString *)operationID  resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
   
-    NSDictionary *param = @{
-      @"recvMsgOpt":options[@"opt"],
-    };
+    NSMutableDictionary *param = [NSMutableDictionary dictionary]; // nil-safe: a literal throws on a missing JS field
+    param[@"recvMsgOpt"] = options[@"opt"];
     Open_im_sdkSetConversation(proxy, operationID , [options valueForKey:@"conversationID"], [param json]);
 }
 
@@ -992,11 +994,10 @@ RCT_EXPORT_METHOD(addFriend:(NSDictionary *)paramsReq operationID:(NSString *)op
 RCT_EXPORT_METHOD(setFriendRemark:(NSDictionary *)options operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
   
-    NSArray *friendUserIDs = @[options[@"toUserID"]];
-    NSDictionary *param = @{
-        @"friendUserIDs":friendUserIDs,
-        @"remark":options[@"remark"],
-    };
+    NSString *toUserID = options[@"toUserID"];
+    NSMutableDictionary *param = [NSMutableDictionary dictionary]; // nil-safe: a literal throws on a missing JS field
+    param[@"friendUserIDs"] = toUserID ? @[toUserID] : @[];
+    param[@"remark"] = options[@"remark"];
     Open_im_sdkUpdateFriends(proxy, operationID, [param json]);
 }
 
@@ -1171,30 +1172,27 @@ RCT_EXPORT_METHOD(setGroupInfo:(NSDictionary *)options operationID:(NSString *)o
 
 RCT_EXPORT_METHOD(setGroupVerification:(NSDictionary *)options operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
-    NSDictionary *param = @{
-        @"groupID":options[@"groupID"],
-        @"needVerification":options[@"verification"],
-    };
+    NSMutableDictionary *param = [NSMutableDictionary dictionary]; // nil-safe: a literal throws on a missing JS field
+    param[@"groupID"] = options[@"groupID"];
+    param[@"needVerification"] = options[@"verification"];
 
     Open_im_sdkSetGroupInfo(proxy, operationID, [param json]);
 }
 
 RCT_EXPORT_METHOD(setGroupLookMemberInfo:(NSDictionary *)options operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
-    NSDictionary *param = @{
-        @"groupID":options[@"groupID"],
-        @"lookMemberInfo":options[@"rule"],
-    };
+    NSMutableDictionary *param = [NSMutableDictionary dictionary]; // nil-safe: a literal throws on a missing JS field
+    param[@"groupID"] = options[@"groupID"];
+    param[@"lookMemberInfo"] = options[@"rule"];
 
     Open_im_sdkSetGroupInfo(proxy, operationID, [param json]);
 }
 
 RCT_EXPORT_METHOD(setGroupApplyMemberFriend:(NSDictionary *)options operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
-    NSDictionary *param = @{
-        @"groupID":options[@"groupID"],
-        @"applyMemberFriend":options[@"rule"],
-    };
+    NSMutableDictionary *param = [NSMutableDictionary dictionary]; // nil-safe: a literal throws on a missing JS field
+    param[@"groupID"] = options[@"groupID"];
+    param[@"applyMemberFriend"] = options[@"rule"];
     
   Open_im_sdkSetGroupInfo(proxy, operationID, [param json]);
 }
@@ -1310,11 +1308,10 @@ RCT_EXPORT_METHOD(refuseGroupApplication:(NSDictionary *)options operationID:(NS
 
 RCT_EXPORT_METHOD(setGroupMemberNickname:(NSDictionary *)options operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
-    NSDictionary *param = @{
-        @"groupID":options[@"groupID"],
-        @"userID":options[@"userID"],
-        @"nickname":options[@"groupMemberNickname"],
-    };
+    NSMutableDictionary *param = [NSMutableDictionary dictionary]; // nil-safe: a literal throws on a missing JS field
+    param[@"groupID"] = options[@"groupID"];
+    param[@"userID"] = options[@"userID"];
+    param[@"nickname"] = options[@"groupMemberNickname"];
 
     Open_im_sdkSetGroupMemberInfo(proxy, operationID, [param json]);
 }
