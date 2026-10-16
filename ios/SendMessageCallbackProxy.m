@@ -40,6 +40,9 @@
 }
 
 - (NSDictionary *)parseJsonStr2Dict:(NSString *)jsonStr {
+    if (jsonStr.length == 0) { // nil/empty: JSONObjectWithData:nil throws
+        return nil;
+    }
     NSData *jsonData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error = nil;
     id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
@@ -60,7 +63,7 @@
     NSDictionary *messageDict = [self parseJsonStr2Dict:self.msg];
     NSDictionary *data = @{
         @"progress":@(progress),
-        @"message":messageDict
+        @"message":(messageDict ?: [NSNull null])
     };
     [self.module pushEvent:@"SendMessageProgress" data:data];
 }
