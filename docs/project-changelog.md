@@ -30,6 +30,17 @@ Format: `v<SDK_VERSION>` — `openimsdk-core <CORE_TAG>` — `<DATE>`
 - `updateFriends()` now bridged on iOS and Android (`@ReactMethod` was missing on Android, iOS had no method)
 - `UpdateFriendsParams.remark` / `ex` typed `string` (were `boolean`)
 
+## v1.0.0-rc50-crash.2 — openimsdk-core 0.0.1-rc43 — 2026-10-19
+
+**Internal fixes only. No bridge API changes.**
+
+- `exportGuard` panic protection on all exported Go functions — panics now deliver `OnError` to callback instead of crashing the app
+- Crash trail logging for auth errors, message history load failures, and search operations
+- Conversation sort fix: pinned conversations now ordered by `PinTime` (newest pin first) via `conversationComesFirst`
+- `PinTime` synced from server on conversation update (was missing in sync path)
+
+---
+
 ## v1.0.0-rc49 — openimsdk-core HEAD (post-rc40) — 2026-10-15
 
 **New `pinTime` field on ConversationItem. Bridge fixes for OnRecvCustomBusinessMessage.**

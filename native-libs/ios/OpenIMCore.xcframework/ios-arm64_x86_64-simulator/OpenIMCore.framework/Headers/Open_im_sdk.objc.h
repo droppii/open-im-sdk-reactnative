@@ -83,7 +83,12 @@ FOUNDATION_EXPORT NSString* _Nonnull const Open_im_sdkLogoutTips;
 + (void) setErrNotImplemented:(NSError* _Nullable)v;
 
 /**
- * UserForSDK Client-independent user class
+ * UserForSDK Client-independent user class.
+Its component getters (Conversation(), Group()...) are nil-safe: exported wrappers evaluate
+UserForSDK.Conversation().Xxx on the native thread before CheckResourceLoad runs, so an API
+called before InitSDK or after UnInitSDK must not panic there. Caveat: Conversation embeds
+*interaction.LongConnMgr and User embeds db_interface.DataBase; passing a promoted method
+value such as UserForSDK.Conversation().SendReqWaitResp still dereferences the nil receiver.
  */
 + (Open_im_sdkLoginMgr* _Nullable) userForSDK;
 + (void) setUserForSDK:(Open_im_sdkLoginMgr* _Nullable)v;
