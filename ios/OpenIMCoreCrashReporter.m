@@ -48,6 +48,15 @@ static const NSUInteger OIMBugsnagSeverityError = 0;
     });
 }
 
++ (BOOL)isTriggerAllowed {
+#if DEBUG
+    return YES;
+#else
+    id value = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"OpenIMEnableCoreCrashTrigger"];
+    return [value respondsToSelector:@selector(boolValue)] && [value boolValue];
+#endif
+}
+
 + (nullable NSString *)crashDirectory {
     NSURL *support = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask].firstObject;
     if (support == nil) {

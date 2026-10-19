@@ -731,14 +731,15 @@ class OpenIMSDK extends Emitter {
   }
 
   /**
-   * Debug builds only: crashes the Go core on purpose to test crash reporting.
-   * recovered_* are reported right away and the app keeps running; fatal_* kill the app and are
-   * reported on the next launch.
+   * Crashes the Go core on purpose to test crash reporting. Works in debug builds, or in apps that
+   * opt in (Android manifest meta-data com.openimsdkrn.ENABLE_CORE_CRASH_TRIGGER, iOS Info.plist
+   * OpenIMEnableCoreCrashTrigger). recovered_* are reported right away and the app keeps running;
+   * fatal_* kill the app and are reported on the next launch.
    */
   debugTriggerCoreCrash(kind: CoreCrashTriggerKind) {
     const nativeMethod = NativeOpenIMSDK.debugTriggerCoreCrash;
     if (!nativeMethod) {
-      return Promise.reject(new OpenIMApiError(-1, 'debugTriggerCoreCrash is only available in debug builds', ''));
+      return Promise.reject(new OpenIMApiError(-1, 'debugTriggerCoreCrash is not available in this SDK build', ''));
     }
     return this.invoke(nativeMethod, [kind]);
   }

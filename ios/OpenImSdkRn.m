@@ -1385,12 +1385,15 @@ RCT_EXPORT_METHOD(logs:(NSDictionary *)options operationID:(NSString *)operation
     Open_im_sdkLogs(proxy, operationID, [[options valueForKey:@"logLevel"] longValue],[options valueForKey:@"file"],[[options valueForKey:@"line"] longValue],[options valueForKey:@"msgs"],[options valueForKey:@"err"],[keyAndValue json]);
 }
 
-#if DEBUG
-// Debug builds only: crashes the Go core on purpose to test crash reporting.
+// Crashes the Go core on purpose to test crash reporting. Debug builds, or apps that set
+// OpenIMEnableCoreCrashTrigger in their Info.plist, e.g. staging.
 RCT_EXPORT_METHOD(debugTriggerCoreCrash:(NSString *)kind resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+    if (![OpenIMCoreCrashReporter isTriggerAllowed]) {
+        rejecter(@"-1", @"debugTriggerCoreCrash is disabled: use a debug build or set OpenIMEnableCoreCrashTrigger in Info.plist", nil);
+        return;
+    }
     resolver(@(Open_im_sdkDebugTriggerCrash(kind)));
 }
-#endif
 
 // WARN: This method is useless and will be removed in the future.
 RCT_EXPORT_METHOD(getSdkVersion:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {

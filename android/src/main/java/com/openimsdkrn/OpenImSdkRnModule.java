@@ -1266,11 +1266,12 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
     promise.resolve(null);
   }
 
-  // Debug builds only: crashes the Go core on purpose to test crash reporting.
+  // Crashes the Go core on purpose to test crash reporting. Debug builds, or apps that set the
+  // com.openimsdkrn.ENABLE_CORE_CRASH_TRIGGER manifest meta-data, e.g. staging.
   @ReactMethod
   public void debugTriggerCoreCrash(String kind, Promise promise) {
-    if (!CoreCrashReporter.isDebuggable(reactContext)) {
-      promise.reject("-1", "debugTriggerCoreCrash is only available in debug builds");
+    if (!CoreCrashReporter.isTriggerAllowed(reactContext)) {
+      promise.reject("-1", "debugTriggerCoreCrash is disabled: use a debug build or enable com.openimsdkrn.ENABLE_CORE_CRASH_TRIGGER");
       return;
     }
     promise.resolve(Open_im_sdk.debugTriggerCrash(kind));
