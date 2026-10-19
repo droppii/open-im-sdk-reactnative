@@ -11,6 +11,7 @@ Format: `v<SDK_VERSION>` — `openimsdk-core <CORE_TAG>` — `<DATE>`
 **New API. Bridge updated. Fixes three methods that threw at runtime.**
 
 ### Added
+
 - `OpenIMEvent.OnNetworkLog` → `logJSON: string` (`NetworkLogEntry`) — debug-only stream of the core's HTTP (`POST`), WS (`WS`), server push (`PUSH`) and heartbeat (`PING`) traffic, for Reactotron
 - `InitOptions.networkLogEnabled` — enables the stream at `initSDK`; pass `__DEV__`. The listener is only registered in debug (iOS) / debuggable (Android) app builds
 - `getUserStatus(userIDList)` → `UserOnlineState[]`
@@ -23,10 +24,36 @@ Format: `v<SDK_VERSION>` — `openimsdk-core <CORE_TAG>` — `<DATE>`
 - `ConversationItem.pinTime` — pin timestamp (core rc41: pin thread)
 
 ### Changed
+
 - `networkStatusChanged()` now calls the native `networkStatusChange` — it previously rejected on every call, so the core was never told about network changes
 - `hideAllConversation()` → deprecated alias of `hideAllConversations()` (it previously called a non-existent native method)
 - `updateFriends()` now bridged on iOS and Android (`@ReactMethod` was missing on Android, iOS had no method)
 - `UpdateFriendsParams.remark` / `ex` typed `string` (were `boolean`)
+
+## v1.0.0-rc50-crash.2 — openimsdk-core 0.0.1-rc43 — 2026-10-19
+
+**Internal fixes only. No bridge API changes.**
+
+- `exportGuard` panic protection on all exported Go functions — panics now deliver `OnError` to callback instead of crashing the app
+- Crash trail logging for auth errors, message history load failures, and search operations
+- Conversation sort fix: pinned conversations now ordered by `PinTime` (newest pin first) via `conversationComesFirst`
+- `PinTime` synced from server on conversation update (was missing in sync path)
+
+---
+
+## v1.0.0-rc49 — openimsdk-core HEAD (post-rc40) — 2026-10-15
+
+**New `pinTime` field on ConversationItem. Bridge fixes for OnRecvCustomBusinessMessage.**
+
+### Changed
+
+- `ConversationItem.pinTime` (`number?`) — timestamp khi conversation được pin, dùng để sort pinned conversations theo thứ tự pin
+
+### Fixed
+
+- iOS: `OpenImSdkRn.h` missing `Open_im_sdk_callbackOnCustomBusinessListener` protocol conformance — `onRecvCustomBusinessMessage` event không được deliver
+- Android/iOS: `setCustomBusinessListener` chưa được đăng ký trong `initSDK`
+- Android: `SetCustomBusinessListener` crash khi payload là plain string (không phải JSON object)
 
 ---
 
@@ -69,6 +96,7 @@ Format: `v<SDK_VERSION>` — `openimsdk-core <CORE_TAG>` — `<DATE>`
 **New API. Bridge updated.**
 
 ### Added
+
 - `getFirstUnreadMessage(conversationID)` → `GetFirstUnreadMessageResult` — returns the first unread message in a conversation for showing an unread indicator
 - `ConversationItem.lastOpenTime?: number` — timestamp of when the conversation was last opened (used by the unread indicator)
 - `GetFirstUnreadMessageResult` type in `src/types/entity.ts`

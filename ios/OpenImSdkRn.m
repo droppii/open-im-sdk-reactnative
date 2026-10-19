@@ -1,4 +1,5 @@
 #import "OpenImSdkRn.h"
+#import "OpenIMCoreCrashReporter.h"
 #import "SendMessageCallbackProxy.h"
 #import "UploadFileCallbackProxy.h"
 #import "UploadLogCallbackProxy.h"
@@ -172,6 +173,9 @@ RCT_EXPORT_METHOD(initSDK:(NSDictionary *)config operationID:(NSString *)operati
     // Set before InitSDK so requests made during init are captured too.
     Open_im_sdkSetNetworkLogListener(self);
 #endif
+
+    // Core crash reporting starts with the core itself, so apps that never init OpenIM are untouched.
+    [OpenIMCoreCrashReporter install];
     BOOL flag = Open_im_sdkInitSDK(self,operationID,[newConfig json]);
     Open_im_sdkSetUserListener(self);
     Open_im_sdkSetConversationListener(self);
@@ -1379,6 +1383,16 @@ RCT_EXPORT_METHOD(logs:(NSDictionary *)options operationID:(NSString *)operation
     NSArray* keyAndValue = [options valueForKey:@"keyAndValue"];
 
     Open_im_sdkLogs(proxy, operationID, [[options valueForKey:@"logLevel"] longValue],[options valueForKey:@"file"],[[options valueForKey:@"line"] longValue],[options valueForKey:@"msgs"],[options valueForKey:@"err"],[keyAndValue json]);
+}
+
+// Crashes the Go core on purpose to test crash reporting. Debug builds, or apps that set
+// OpenIMEnableCoreCrashTrigger in their Info.plist, e.g. staging.
+RCT_EXPORT_METHOD(debugTriggerCoreCrash:(NSString *)kind resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+    if (![OpenIMCoreCrashReporter isTriggerAllowed]) {
+        rejecter(@"-1", @"debugTriggerCoreCrash is disabled: use a debug build or set OpenIMEnableCoreCrashTrigger in Info.plist", nil);
+        return;
+    }
+    resolver(@(Open_im_sdkDebugTriggerCrash(kind)));
 }
 
 // WARN: This method is useless and will be removed in the future.

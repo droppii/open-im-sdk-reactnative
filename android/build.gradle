@@ -25,6 +25,7 @@ android {
         targetSdkVersion safeExtGet('OpenImSdkRn_targetSdkVersion', 33)
         versionCode 1
         versionName "1.0"
+        consumerProguardFiles 'proguard-rules.pro'
 
     }
 
@@ -59,5 +60,7 @@ dependencies {
     implementation 'androidx.collection:collection:1.1.0'
     implementation 'com.alibaba:fastjson:1.1.72.android'
     implementation fileTree(dir: '../native-libs/android', include: ['*.aar'])
+    // Core crash reports go to Bugsnag only when the host app ships it.
+    compileOnly 'com.bugsnag:bugsnag-android-core:6.12.1'
     // implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])
 }

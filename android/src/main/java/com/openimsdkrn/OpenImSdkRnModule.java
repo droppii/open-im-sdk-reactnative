@@ -25,6 +25,7 @@ import com.openimsdkrn.listener.UploadFileCallbackListener;
 import com.openimsdkrn.listener.BatchMsgListener;
 import com.openimsdkrn.listener.SetCustomBusinessListener;
 import com.openimsdkrn.listener.NetworkLogListener;
+import com.openimsdkrn.crash.CoreCrashReporter;
 import com.openimsdkrn.utils.Emitter;
 
 import java.util.ArrayList;
@@ -79,6 +80,8 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
     if ((reactContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
       Open_im_sdk.setNetworkLogListener(new NetworkLogListener(reactContext));
     }
+    // Core crash reporting starts with the core itself, so apps that never init OpenIM are untouched.
+    CoreCrashReporter.install(reactContext);
     boolean initialized = Open_im_sdk.initSDK(new InitSDKListener(reactContext), operationID, map2string(config));
     setUserListener();
     setConversationListener();
@@ -1261,5 +1264,16 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
   public void unInitSDK(String operationID, Promise promise) {
     Open_im_sdk.unInitSDK(operationID);
     promise.resolve(null);
+  }
+
+  // Crashes the Go core on purpose to test crash reporting. Debug builds, or apps that set the
+  // com.openimsdkrn.ENABLE_CORE_CRASH_TRIGGER manifest meta-data, e.g. staging.
+  @ReactMethod
+  public void debugTriggerCoreCrash(String kind, Promise promise) {
+    if (!CoreCrashReporter.isTriggerAllowed(reactContext)) {
+      promise.reject("-1", "debugTriggerCoreCrash is disabled: use a debug build or enable com.openimsdkrn.ENABLE_CORE_CRASH_TRIGGER");
+      return;
+    }
+    promise.resolve(Open_im_sdk.debugTriggerCrash(kind));
   }
 }
