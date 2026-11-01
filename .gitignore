@@ -69,3 +69,11 @@ android/keystores/debug.keystore
 lib/
 
 .last-core-tag
+
+# Repo-owned execution profiles; per-task artifacts stay local.
+!/.engineering/
+!/.engineering/**/
+!/.engineering/**
+/.engineering/**/node_modules/
+/.engineering/**/__pycache__/
+/.engineering/runs/
