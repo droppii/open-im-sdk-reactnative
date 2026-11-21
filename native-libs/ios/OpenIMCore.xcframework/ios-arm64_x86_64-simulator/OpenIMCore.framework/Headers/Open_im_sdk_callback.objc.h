@@ -57,6 +57,7 @@
 - (void)onMsgDeleted:(NSString* _Nullable)message;
 - (void)onNewRecvMessageRevoked:(NSString* _Nullable)messageRevoked;
 - (void)onRecvC2CReadReceipt:(NSString* _Nullable)msgReceiptList;
+- (void)onRecvMessageEdited:(NSString* _Nullable)messageEdited;
 - (void)onRecvMessagePinned:(NSString* _Nullable)messagePinned;
 - (void)onRecvNewMessage:(NSString* _Nullable)message;
 - (void)onRecvOfflineNewMessage:(NSString* _Nullable)message;
@@ -296,6 +297,7 @@
 - (void)onMsgDeleted:(NSString* _Nullable)message;
 - (void)onNewRecvMessageRevoked:(NSString* _Nullable)messageRevoked;
 - (void)onRecvC2CReadReceipt:(NSString* _Nullable)msgReceiptList;
+- (void)onRecvMessageEdited:(NSString* _Nullable)messageEdited;
 - (void)onRecvMessagePinned:(NSString* _Nullable)messagePinned;
 - (void)onRecvNewMessage:(NSString* _Nullable)message;
 - (void)onRecvOfflineNewMessage:(NSString* _Nullable)message;

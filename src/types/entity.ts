@@ -215,6 +215,8 @@ export type MessageItem = {
   isPinned?: boolean;
   pinnedByUserID?: string;
   pinnedTime?: number;
+  isEdited?: boolean;
+  editTime?: number;
   status: MessageStatus;
   attachedInfo?: string;
   isReact?: boolean;
@@ -348,6 +350,7 @@ export type AttachedInfoElem = {
   isPrivateChat: boolean;
   isEncryption: boolean;
   inEncryptStatus: boolean;
+  editTime?: number;
   burnDuration: number;
   hasReadTime: number;
   messageEntityList?: MessageEntity[];

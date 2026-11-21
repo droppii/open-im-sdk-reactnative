@@ -6,6 +6,19 @@ Format: `v<SDK_VERSION>` — `openimsdk-core <CORE_TAG>` — `<DATE>`
 
 ---
 
+## v1.0.0-rc53 — openimsdk-core 0.0.1-rc46 — 2026-11-21
+
+**New API. Bridge updated.**
+
+### Added
+- `editMessage({ conversationID, clientMsgID, content })` → `MessageItem` — edit a sent message
+- `OpenIMEvent.OnRecvMessageEdited` — fired when a message is edited by any participant
+- `MessageItem.isEdited?: boolean`, `MessageItem.editTime?: number` — edit state on message
+- `AttachedInfoElem.editTime?: number` — edit timestamp in attached info
+- `MessageType.EditMsg = 2104` — notification content type for edit events
+
+---
+
 ## v1.0.0-rc50 — openimsdk-core 0.0.1-rc42 — 2026-10-15
 
 **New API. Bridge updated. Fixes three methods that threw at runtime.**

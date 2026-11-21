@@ -46,4 +46,9 @@ public class AdvancedMsgListener extends Emitter implements OnAdvancedMsgListene
   public void onRecvMessagePinned(String s) {
     send(ctx,"onRecvMessagePinned",jsonStringToMap(s));
   }
+
+  @Override
+  public void onRecvMessageEdited(String s) {
+    send(ctx,"onRecvMessageEdited",jsonStringToMap(s));
+  }
 }

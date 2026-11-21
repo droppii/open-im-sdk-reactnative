@@ -748,6 +748,12 @@ public class OpenImSdkRnModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void editMessage(ReadableMap options, String operationID, Promise promise) {
+    Open_im_sdk.editMessage(new BaseImpl(promise), operationID, options.getString("conversationID"),
+      options.getString("clientMsgID"), options.getString("content"));
+  }
+
+  @ReactMethod
   public void searchConversation(String searchParams, String operationID, Promise promise) {
     Open_im_sdk.searchConversation(new BaseImpl(promise), operationID, searchParams);
   }

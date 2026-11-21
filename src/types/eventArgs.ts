@@ -56,6 +56,7 @@ export type EventCallbackArgsMap = {
   [OpenIMEvent.OnRecvC2CReadReceipt]: [receipts: ReceiptInfo[]];
   [OpenIMEvent.OnNewRecvMessageRevoked]: [revokedInfo: RevokedInfo];
   [OpenIMEvent.OnRecvMessagePinned]: [messagePinned: MessagePinned];
+  [OpenIMEvent.OnRecvMessageEdited]: [message: MessageItem];
 
   [OpenIMEvent.OnConversationChanged]: [conversations: ConversationItem[]];
   [OpenIMEvent.OnInputStatusChanged]: [inputStatus: ConversationInputStatus];

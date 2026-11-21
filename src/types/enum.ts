@@ -134,6 +134,7 @@ export enum MessageType {
   RevokeMessage = 2101,
   DeleteMsgs = 2102,
   PinMsg = 2103,
+  EditMsg = 2104,
   HasReadReceipt = 2200,
 }
 export enum SessionType {

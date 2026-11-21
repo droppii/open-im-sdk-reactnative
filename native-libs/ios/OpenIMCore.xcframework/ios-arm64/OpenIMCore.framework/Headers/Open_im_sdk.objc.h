@@ -202,6 +202,8 @@ FOUNDATION_EXPORT void Open_im_sdkDeleteUserCommand(id<Open_im_sdk_callbackBase>
 
 FOUNDATION_EXPORT void Open_im_sdkDismissGroup(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable groupID);
 
+FOUNDATION_EXPORT void Open_im_sdkEditMessage(id<Open_im_sdk_callbackBase> _Nullable callback, NSString* _Nullable operationID, NSString* _Nullable conversationID, NSString* _Nullable clientMsgID, NSString* _Nullable content);
+
 /**
  * EnableCrashReport writes Go fatal errors of this process and the step trail under crashDir, so
 they can be reported on the next launch. Call it as early as possible, before InitSDK.

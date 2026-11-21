@@ -647,6 +647,10 @@ class OpenIMSDK extends Emitter {
     return this.invoke(NativeOpenIMSDK.revokeMessage, [params, operationID]);
   }
 
+  editMessage(params: OperateMessageParams & { content: string }, operationID: string = id()) {
+    return this.invoke(NativeOpenIMSDK.editMessage, [params, operationID]);
+  }
+
   deleteMessage(params: OperateMessageParams, operationID: string = id()) {
     return this.invoke(NativeOpenIMSDK.deleteMessage, [params, operationID]);
   }

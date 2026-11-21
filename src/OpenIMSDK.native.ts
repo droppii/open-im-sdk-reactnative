@@ -519,6 +519,10 @@ export interface NativeOpenIMSDKInterface {
     params: OperateMessageParams,
     operationID: string
   ) => Promise<unknown>;
+  editMessage: (
+    params: OperateMessageParams & { content: string },
+    operationID: string
+  ) => Promise<MessageItem>;
   deleteMessage: (
     params: OperateMessageParams,
     operationID: string

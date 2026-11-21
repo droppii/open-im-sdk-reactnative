@@ -72,6 +72,7 @@ RCT_EXPORT_MODULE()
   @"onRecvOfflineNewMessage",
   @"onRecvOnlineOnlyMessage",
   @"onRecvMessagePinned",
+  @"onRecvMessageEdited",
   @"onRecvMessageExtensionsAdded",
   @"onRecvMessageExtensionsChanged",
   @"onRecvMessageExtensionsDeleted",
@@ -854,6 +855,15 @@ RCT_EXPORT_METHOD(revokeMessage:(NSDictionary *)options operationID:(NSString *)
     Open_im_sdkRevokeMessage(proxy, operationID, conversationID, clientMsgID);
 }
 
+RCT_EXPORT_METHOD(editMessage:(NSDictionary *)options operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+    RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolver rejecter:rejecter];
+    NSString *conversationID = options[@"conversationID"];
+    NSString *clientMsgID = options[@"clientMsgID"];
+    NSString *content = options[@"content"];
+
+    Open_im_sdkEditMessage(proxy, operationID, conversationID, clientMsgID, content);
+}
+
 RCT_EXPORT_METHOD(searchConversation:(NSString *)searchParams operationID:(NSString *)operationID resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     RNCallbackProxy *proxy = [[RNCallbackProxy alloc] initWithCallback:resolve rejecter:reject];
 
@@ -1512,6 +1522,11 @@ RCT_EXPORT_METHOD(uploadFile:(NSDictionary *)reqData operationID:(NSString *)ope
 - (void)onRecvMessagePinned:(NSString * _Nullable)message {
     NSDictionary *messageDict = [self parseJsonStr2Dict:message];
     [self pushEvent:@"onRecvMessagePinned" data:messageDict];
+}
+
+- (void)onRecvMessageEdited:(NSString * _Nullable)message {
+    NSDictionary *messageDict = [self parseJsonStr2Dict:message];
+    [self pushEvent:@"onRecvMessageEdited" data:messageDict];
 }
 
 // -------------------- Open_im_sdkOnFriendshipListener --------------------
