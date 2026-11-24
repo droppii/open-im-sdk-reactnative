@@ -1,0 +1,8 @@
+{
+  "component": "open-im-sdk-reactnative",
+  "connectors": [
+    "github"
+  ],
+  "environments": {},
+  "partners": []
+}
